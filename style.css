@@ -227,7 +227,6 @@ canvas#matrixCanvas {
 
 @media screen and (min-width: 768px) {
   .laptop-perspective {
-    border: 5px solid red;
     background: url('laptop-hud-final.png') center center no-repeat;
     background-size: contain;
     background-color: black;
