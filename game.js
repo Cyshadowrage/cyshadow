@@ -51,7 +51,7 @@ function drawAmbientBackground() {
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
       ctx.font = '16px monospace';
-      ctx.fillStyle = '#00ffff';
+      ctx.fillStyle = '#00BDEB';
       ctx.fillText(cmd, x, y);
     }
 
