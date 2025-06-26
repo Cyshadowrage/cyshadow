@@ -207,11 +207,20 @@ canvas#matrixCanvas {
 
 @media (max-width: 600px) {
   .laptop-perspective {
-    background: url('phone-hud.png') center center no-repeat;
-    background-size: contain;
-    max-width: 420px;
-    height: 90vh;
-    border-radius: 30px;
-    padding: 20px;
+    background: url('phone-hud-v2.png') center center no-repeat;
+    background-size: cover;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    padding: 5vh 5vw;
+    margin: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+
+  .game-screen {
+    height: 100vh;
+    padding: 0;
+    margin: 0;
   }
 }
