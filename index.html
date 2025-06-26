@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyshadow: Code of Vengeance</title>
+ <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cinzel+Decorative:ital@1&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Entrance Screen -->
+<div id="entranceScreen" class="entrance-screen">
+  <canvas id="matrixCanvas"></canvas>
+  <div class="realistic-hacker-image"></div>
+
+  <!-- Wrap title and subtitle in a container for better layout control -->
+  <div class="header-container">
+    <h1 class="game-title">CYSHADOW</h1>
+    <div class="subtitle">CODE OF VENGEANCE</div>
+  </div>
+
+  <button id="connectWalletBtn" class="connect-wallet-btn">CONNECT METAMASK</button>
+  <button id="beginProtocolBtn" class="begin-protocol-btn hidden">BEGIN PROTOCOL</button>
+</div>
+
+
+  <!-- Game Screen -->
+  <div id="gameScreen" class="game-screen hidden">
+    <div class="laptop-perspective">
+
+      <div class="hud-overlay">
+        <div class="hud-row">
+          <div>💻 HS: <span id="hsValue">100</span></div>
+          <div>🏅 Rank: <span id="rankValue">0%</span></div>
+          <div>⚡ Energy: <span id="energyValue">1000</span></div>
+          <div>🪙 $PLAI: <span id="plaiValue">0</span></div>
+        </div>
+
+        <div class="hud-row mission-status">
+          <div>Status: <span id="missionStatus">Idle</span></div>
+          <button onclick="openMissionPanel()">Start Mission</button>
+        </div>
+      </div>
+
+      <div id="missionPanel" class="mission-panel hidden">
+        <h2>📱 Mission Terminal</h2>
+
+        <div class="mission-option" onclick="startMission(1)">
+          <strong>Social Engineering</strong>
+          <em id="subtitle1">Attempting entry into [REDACTED HQ]</em><br>
+          ⏱️ 2 minutes • ⚡ Cost: 5 • 🧠 HS-based • 🎯 +0.25% XP (Success)
+        </div>
+
+        <div class="mission-option" onclick="startMission(2)">
+          <strong>Cyber Infiltration</strong>
+          <em>Decrypting internal comms...</em><br>
+          ⏱️ 4 minutes • ⚡ Cost: 8 • 🎯 +0.50% XP (Success)
+        </div>
+
+        <div class="mission-option" onclick="startMission(3)">
+          <strong>System Breach</strong>
+          <em>Overriding root security protocols...</em><br>
+          ⏱️ 6 minutes • ⚡ Cost: 12 • 🎯 +0.75% XP (Success)
+        </div>
+
+        <button onclick="closeMissionPanel()">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+
+  <script>
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const commands = [
+      'ping nexus_corp -t', 'decrypt --key 0xf3b1c4a9', 'breach --firewall --deep',
+      'inject retribution.exe', 'netstat /trace /stealth', 'sudo erase --history',
+      'download payload.pkg', 'uplink established ✔', 'trace.mask.enabled',
+      'rm -rf /root/nexus', 'dns spoof: ACTIVE', 'backdoor.exe loading...',
+      'ssh -i ghost_key root@target', 'loop breach > trace.block',
+      'auth override: 0x9A7F', 'tracking disabled', 'chain.inject(success)',
+      'threat neutralized', 'shell opened: #root', 'AI bypass granted',
+      'proxy tunnel created', 'bootloader hacked', 'logging disabled',
+      'sysinfo dump → /tmp', ':: uploading vengeance'
+    ];
+
+    const redAlerts = [
+      'CRITICAL BREACH DETECTED', 'WARNING: NEXUS TRACE INITIATED',
+      'UNAUTHORIZED ACCESS FLAGGED', 'ALERT: TRACE LOCATED',
+      'FIREWALL OVERRIDE FAILED', 'SECURITY TRIPWIRE TRIGGERED',
+      'COUNTER-INTEL DEPLOYED', 'CORE DUMP ENGAGED',
+      'MALWARE SIGNATURE DETECTED', 'TRACE NEARBY — DISCONNECT NOW'
+    ];
+
+    let flashes = [], redFlashes = [];
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 10, 20, 0.12)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < 8; i++) {
+        const cmd = commands[Math.floor(Math.random() * commands.length)];
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        ctx.font = '16px monospace';
+        ctx.fillStyle = '#00ffff';
+        ctx.fillText(cmd, x, y);
+      }
+
+      flashes.forEach(flash => {
+        const { text, x, y, age, maxAge } = flash;
+        const opacity = 1 - age / maxAge;
+        ctx.font = 'bold 20px monospace';
+        ctx.fillStyle = `rgba(0, 255, 255, ${opacity})`;
+        ctx.fillText(text, x, y);
+        flash.age++;
+      });
+
+      redFlashes.forEach(alert => {
+        const { text, x, y, age, maxAge } = alert;
+        const opacity = 1 - age / maxAge;
+        ctx.font = 'bold 22px monospace';
+        ctx.fillStyle = `rgba(255, 0, 0, ${opacity})`;
+        ctx.fillText(text, x, y);
+        alert.age++;
+      });
+
+      flashes = flashes.filter(f => f.age < f.maxAge);
+      redFlashes = redFlashes.filter(r => r.age < r.maxAge);
+    }
+
+    setInterval(() => {
+      const cmd = commands[Math.floor(Math.random() * commands.length)];
+      flashes.push({
+        text: cmd,
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        age: 0,
+        maxAge: 50 + Math.random() * 30
+      });
+    }, 1500);
+
+    setInterval(() => {
+      const alert = redAlerts[Math.floor(Math.random() * redAlerts.length)];
+      redFlashes.push({
+        text: alert,
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        age: 0,
+        maxAge: 70 + Math.random() * 40
+      });
+    }, 4000);
+
+    setInterval(draw, 200);
+
+    document.getElementById('connectWalletBtn').addEventListener('click', () => {
+      document.getElementById('connectWalletBtn').classList.add('hidden');
+      document.getElementById('beginProtocolBtn').classList.remove('hidden');
+    });
+
+    document.getElementById('beginProtocolBtn').addEventListener('click', () => {
+      document.getElementById('entranceScreen').classList.add('hidden');
+      document.getElementById('gameScreen').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
