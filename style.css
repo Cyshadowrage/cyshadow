@@ -53,7 +53,7 @@ canvas {
 /* Cyshadow Title */
 .game-title {
   font-size: clamp(32px, 8vw, 72px);
-  color: #00ffcc;
+  color: #00BDEB;
   text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
   margin: 0;
   word-break: break-word;
@@ -79,7 +79,7 @@ canvas {
   font-size: 1rem;
   padding: 10px 20px;
   margin: 10px;
-  background: #00ffff;
+  background: #00BDEB;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -227,6 +227,7 @@ canvas#matrixCanvas {
 
 @media screen and (min-width: 768px) {
   .laptop-perspective {
+    border: 5px solid red;
     background: url('laptop-hud-final.png') center center no-repeat;
     background-size: contain;
     background-color: black;
