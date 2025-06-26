@@ -224,3 +224,25 @@ canvas#matrixCanvas {
     padding: 0;
   }
 }
+
+@media screen and (min-width: 768px) {
+  .laptop-perspective {
+    background: url('laptop-hud-final.png') center center no-repeat;
+    background-size: contain;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    padding: 5vh 5vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 0;
+  }
+
+  .game-screen {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+}
