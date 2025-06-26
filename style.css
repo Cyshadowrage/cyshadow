@@ -205,22 +205,22 @@ canvas#matrixCanvas {
   transform: translateZ(0);
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .laptop-perspective {
-    background: url('phone-hud-v2.png') center center no-repeat;
+    background: url('phone-hud-v3.png') center center no-repeat;
     background-size: cover;
     background-color: black;
     width: 100vw;
     height: 100vh;
-    padding: 5vh 5vw;
     margin: 0;
+    padding: 5vh 5vw;
     border-radius: 0;
     box-sizing: border-box;
   }
 
   .game-screen {
     height: 100vh;
-    padding: 0;
     margin: 0;
+    padding: 0;
   }
 }
