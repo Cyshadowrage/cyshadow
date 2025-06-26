@@ -121,12 +121,12 @@ canvas {
 }
 
 .hud-overlay {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 20px;
-  border-radius: 15px;
-  font-size: 16px;
-  position: relative;
-  z-index: 2;
+  max-width: 70%;
+  margin: 0 auto;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  box-sizing: border-box;
+  z-index: 10;
 }
 
 .hud-row {
@@ -135,6 +135,8 @@ canvas {
   gap: 10px;
   margin-bottom: 10px;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .mission-status {
