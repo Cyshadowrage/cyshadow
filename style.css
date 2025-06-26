@@ -104,7 +104,7 @@ canvas {
 }
 
 .laptop-perspective {
-  background: url('laptop-hud.jpg') center/contain no-repeat;
+  background: url('laptop-hud.png') center/contain no-repeat;
   background-color: black;
   background-size: contain;
   border-radius: 20px;
@@ -203,4 +203,15 @@ canvas#matrixCanvas {
   position: relative;
   will-change: transform;
   transform: translateZ(0);
+}
+
+@media (max-width: 600px) {
+  .laptop-perspective {
+    background: url('phone-hud.png') center center no-repeat;
+    background-size: contain;
+    max-width: 420px;
+    height: 90vh;
+    border-radius: 30px;
+    padding: 20px;
+  }
 }
