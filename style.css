@@ -207,7 +207,7 @@ canvas#matrixCanvas {
 
 @media screen and (max-width: 768px) {
   .laptop-perspective {
-    background: url('phone-hud-v3.png') center center no-repeat;
+    background: url('phone-hud-tight.png') center center no-repeat;
     background-size: cover;
     background-color: black;
     width: 100vw;
