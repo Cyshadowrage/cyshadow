@@ -1,21 +1,4 @@
-
-// FULL game.js — wallet connect + basic game logic
-
-const missionSubtitles = [
-  "Bypassing security gate at NexCorp HQ...",
-  "Extracting credentials from zero-day logs...",
-  "Hacking elevator firmware...",
-  "Fooling receptionist AI...",
-  "Social graph manipulation..."
-];
-
-let hs = 100;
-let energy = 1000;
-let rank = 0;
-let missionActive = false;
-let flashes = [];
-let redFlashes = [];
-
+// Ambient background animation and HUD reveal after entrance
 const commands = [
   'ping nexus_corp -t', 'decrypt --key 0xf3b1c4a9', 'breach --firewall --deep',
   'inject retribution.exe', 'netstat /trace /stealth', 'sudo erase --history',
@@ -35,6 +18,8 @@ const redAlerts = [
   'COUNTER-INTEL DEPLOYED', 'CORE DUMP ENGAGED',
   'MALWARE SIGNATURE DETECTED', 'TRACE NEARBY — DISCONNECT NOW'
 ];
+
+let flashes = [], redFlashes = [];
 
 function drawAmbientBackground() {
   const canvas = document.getElementById('matrixCanvas');
@@ -79,24 +64,12 @@ function drawAmbientBackground() {
 
   setInterval(() => {
     const cmd = commands[Math.floor(Math.random() * commands.length)];
-    flashes.push({
-      text: cmd,
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      age: 0,
-      maxAge: 50 + Math.random() * 30
-    });
+    flashes.push({ text: cmd, x: Math.random() * canvas.width, y: Math.random() * canvas.height, age: 0, maxAge: 50 + Math.random() * 30 });
   }, 1500);
 
   setInterval(() => {
     const alert = redAlerts[Math.floor(Math.random() * redAlerts.length)];
-    redFlashes.push({
-      text: alert,
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      age: 0,
-      maxAge: 70 + Math.random() * 40
-    });
+    redFlashes.push({ text: alert, x: Math.random() * canvas.width, y: Math.random() * canvas.height, age: 0, maxAge: 70 + Math.random() * 40 });
   }, 4000);
 
   setInterval(draw, 200);
@@ -109,7 +82,7 @@ function drawAmbientBackground() {
 
 drawAmbientBackground();
 
-// MetaMask wallet connect and Base chain switch
+// Wallet + Screen Transitions
 let connectedWallet = null;
 
 async function connectWallet() {
@@ -125,12 +98,8 @@ async function connectWallet() {
     document.getElementById('connectWalletBtn').classList.add('hidden');
     document.getElementById('beginProtocolBtn').classList.remove('hidden');
 
-    // Switch to Base Mainnet
-    const baseChainId = '0x2105'; // Base mainnet chain ID in hex (8453)
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: baseChainId }]
-    });
+    const baseChainId = '0x2105'; // Base Mainnet
+    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: baseChainId }] });
 
   } catch (err) {
     console.error(err);
@@ -138,50 +107,6 @@ async function connectWallet() {
   }
 }
 
-function openMissionPanel() {
-  if (missionActive) return alert("Mission in progress!");
-  const sub = missionSubtitles[Math.floor(Math.random() * missionSubtitles.length)];
-  document.getElementById("subtitle1").textContent = sub;
-  document.getElementById("missionPanel").classList.remove("hidden");
-}
-
-function closeMissionPanel() {
-  document.getElementById("missionPanel").classList.add("hidden");
-}
-
-function startMission(missionId) {
-  if (missionActive) return;
-
-  const missions = {
-    1: { time: 2, energyCost: 5, failXP: 0.05, successXP: 0.25 },
-    2: { time: 4, energyCost: 8, failXP: 0.10, successXP: 0.50 },
-    3: { time: 6, energyCost: 12, failXP: 0.15, successXP: 0.75 },
-  };
-
-  const m = missions[missionId];
-  if (energy < m.energyCost) {
-    alert("Not enough energy!");
-    return;
-  }
-
-  energy -= m.energyCost;
-  document.getElementById("energyValue").textContent = energy;
-  document.getElementById("missionStatus").textContent = "In Progress...";
-  missionActive = true;
-  closeMissionPanel();
-
-  setTimeout(() => {
-    const successChance = Math.min(1, hs / 150);
-    const success = Math.random() < successChance;
-    const gained = success ? m.successXP : m.failXP;
-    rank += gained;
-    document.getElementById("rankValue").textContent = `${rank.toFixed(2)}%`;
-    document.getElementById("missionStatus").textContent = success ? "✅ Mission Success!" : "❌ Mission Failed";
-    missionActive = false;
-  }, m.time * 1000);
-}
-
-// Hook up buttons
 document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
 
 document.getElementById('beginProtocolBtn').addEventListener('click', () => {
