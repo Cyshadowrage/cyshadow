@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyshadow: Code of Vengeance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Cinzel+Decorative:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Entrance Screen -->
+  <div id="entranceScreen" class="entrance-screen">
+    <canvas id="matrixCanvas"></canvas>
+    <div class="realistic-hacker-image"></div>
+
+    <div class="header-container">
+      <h1 class="game-title">CYSHADOW</h1>
+      <div class="subtitle">CODE OF VENGEANCE</div>
+    </div>
+
+    <div id="walletAddress" style="color: white; margin-bottom: 10px;">Wallet: Not connected</div>
+
+    <button id="connectWalletBtn" class="connect-wallet-btn">CONNECT METAMASK</button>
+    <button id="beginProtocolBtn" class="begin-protocol-btn hidden">BEGIN PROTOCOL</button>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="gameScreen" class="game-screen hidden">
+    <div class="laptop-perspective">
+      <div class="hud-overlay">
+        <div class="hud-row">
+          <div>💻 HS: <span id="hsValue">100</span></div>
+          <div>🏅 Rank: <span id="rankValue">0%</span></div>
+          <div>⚡ Energy: <span id="energyValue">1000</span></div>
+          <div>🪙 $PLAI: <span id="plaiValue">0</span></div>
+        </div>
+
+        <div class="hud-row mission-status">
+          <div>Status: <span id="missionStatus">Idle</span></div>
+          <button onclick="openMissionPanel()">Start Mission</button>
+        </div>
+      </div>
+
+      <div id="missionPanel" class="mission-panel hidden">
+        <h2>📱 Mission Terminal</h2>
+
+        <div class="mission-option" onclick="startMission(1)">
+          <strong>Social Engineering</strong>
+          <em id="subtitle1">Attempting entry into [REDACTED HQ]</em><br>
+          ⏱️ 2 minutes • ⚡ Cost: 5 • 🧠 HS-based • 🎯 +0.25% XP (Success)
+        </div>
+
+        <div class="mission-option" onclick="startMission(2)">
+          <strong>Cyber Infiltration</strong>
+          <em>Decrypting internal comms...</em><br>
+          ⏱️ 4 minutes • ⚡ Cost: 8 • 🎯 +0.50% XP (Success)
+        </div>
+
+        <div class="mission-option" onclick="startMission(3)">
+          <strong>System Breach</strong>
+          <em>Overriding root security protocols...</em><br>
+          ⏱️ 6 minutes • ⚡ Cost: 12 • 🎯 +0.75% XP (Success)
+        </div>
+
+        <button onclick="closeMissionPanel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
