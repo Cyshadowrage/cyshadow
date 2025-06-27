@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyshadow</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Entrance Screen -->
+  <div id="entranceScreen" class="entrance-screen">
+    <canvas id="matrixCanvas"></canvas>
+    <div class="realistic-hacker-image"></div>
+    <div class="header-container">
+      <h1 class="game-title">CYSHADOW</h1>
+      <div class="subtitle">CODE OF VENGEANCE</div>
+    </div>
+    <button id="connectWalletBtn" class="connect-wallet-btn">CONNECT METAMASK</button>
+    <button id="beginProtocolBtn" class="begin-protocol-btn hidden">BEGIN PROTOCOL</button>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="gameScreen" class="game-screen hidden">
+    <div class="laptop-perspective">
+      <div class="hud-overlay">
+        <div class="hud-row">
+          <div>💻 HS: <span id="hsValue">10</span></div>
+          <div>🏅 Rank: <span id="rankValue">0%</span></div>
+          <div>⚡ Energy: <span id="energyValue">1000</span></div>
+          <div>🪙 $PLAI: <span id="plaiValue">0</span></div>
+        </div>
+
+        <div class="missions-container">
+          <div class="mission-card" onclick="startMission(1)">
+            <h3>Mission 1</h3>
+            <p>Energy: 5 ⚡ | Time: 2 min</p>
+            <p>XP - S: 0.5% / F: 0.25%</p>
+            <p>HS ≥ 20 = Guaranteed Success</p>
+            <div class="click-to-start">Click to Start</div>
+          </div>
+          <div class="mission-card" onclick="startMission(2)">
+            <h3>Mission 2</h3>
+            <p>Energy: 8 ⚡ | Time: 4 min</p>
+            <p>XP - S: 0.75% / F: 0.37%</p>
+            <p>HS ≥ 30 = Guaranteed Success</p>
+            <div class="click-to-start">Click to Start</div>
+          </div>
+          <div class="mission-card" onclick="startMission(3)">
+            <h3>Mission 3</h3>
+            <p>Energy: 12 ⚡ | Time: 6 min</p>
+            <p>XP - S: 1% / F: 0.5%</p>
+            <p>HS ≥ 40 = Guaranteed Success</p>
+            <div class="click-to-start">Click to Start</div>
+          </div>
+        </div>
+
+        <div class="hud-row mission-status">
+          <div>Status: <span id="missionStatus">Idle</span></div>
+          <button class="locked-button" disabled>🔒 Advanced Missions</button>
+        </div>
+
+        <div id="missionProgress" class="hidden">
+          <div class="mission-progress-card">
+            <h3>Running Mission...</h3>
+            <div id="missionTimer">00:00</div>
+            <pre class="hacker-animation">
+> Establishing connection...
+> Accessing target system...
+> Injecting payload...
+> Extracting data...
+            </pre>
+          </div>
+        </div>
+
+        <div class="menu-button" onclick="toggleMenu()">☰</div>
+        <div class="menu hidden" id="gameMenu">
+          <ul>
+            <li>Info</li>
+            <li>Shop</li>
+            <li>Gear</li>
+            <li>Leaderboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
