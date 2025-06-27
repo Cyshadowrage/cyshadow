@@ -1,0 +1,120 @@
+
+body {
+  margin: 0;
+  background-color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #00BDEB;
+}
+
+.laptop-perspective {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  background-image: url('laptop-hud-final.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hud-overlay {
+  width: 100%;
+  max-width: 800px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.hud-row {
+  margin-bottom: 10px;
+}
+
+.mission-card {
+  width: 95%;
+  max-width: 350px;
+  margin: 10px auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00BDEB;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.mission-card:hover {
+  background-color: rgba(0, 189, 235, 0.1);
+}
+
+.click-to-start {
+  font-weight: bold;
+  color: #00BDEB;
+  margin-top: 5px;
+}
+
+#missionProgress {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#missionProgress.active {
+  display: flex;
+}
+
+.mission-progress-card {
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 1px solid #00BDEB;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  color: #00BDEB;
+}
+
+.hacker-animation {
+  text-align: left;
+  font-family: monospace;
+  color: #00BDEB;
+  margin-top: 15px;
+  background: black;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.menu-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  background-color: black;
+  border: 1px solid #00BDEB;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  padding: 5px 0;
+  color: #00BDEB;
+}
+
+.hidden {
+  display: none;
+}
