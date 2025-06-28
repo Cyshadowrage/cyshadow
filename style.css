@@ -28,9 +28,10 @@ canvas {
   overflow: hidden;
 }
 
+/* Realistic Hacker Image: now fluid */
 .realistic-hacker-image {
-  width: 300px;
-  height: 300px;
+  width: clamp(180px, 50vw, 300px);
+  aspect-ratio: 1 / 1;
   background: url('images/realistic-hacker.png') center/cover no-repeat;
   border-radius: 15px;
   z-index: 2;
@@ -131,8 +132,6 @@ canvas {
   width: 90%;
   max-width: 900px;
 }
-
-/* HUD overlay and mission styles can go here */
 
 /* Ensure entrance screen elements stay above canvas */
 .header-container,
