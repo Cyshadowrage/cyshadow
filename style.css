@@ -468,3 +468,46 @@ canvas {
     border-right: none !important;
   }
 }
+
+/* ─── MISSION CONTROL ROW ───────────────────────────── */
+.hud-row--mission {
+  flex: 4;
+  border-bottom: none;
+}
+.hud-row--mission .hud-cell {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* Mission content */
+#mission-control {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#mission-control .mission-title {
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
+  text-align: center;
+}
+#mission-control .mission-desc {
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  text-align: center;
+  margin: 1rem 0;
+  flex-grow: 1;
+}
+#mission-control .mission-start {
+  text-align: center;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  border: 2px solid #00BDEB;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+/* Terminal canvas */
+#missionCanvas {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}

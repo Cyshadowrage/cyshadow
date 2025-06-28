@@ -141,3 +141,52 @@ function updateXp(currentPercent, maxPercent) {
     xpText.textContent = percent + '%/' + maxPercent + '%';
   }
 }
+
+// Mission control setup
+const missionList = [
+  { title: 'Social Engineering', desc: 'Attempting to gain valid credentials to infiltrate HQ.' },
+  { title: 'Network Intrusion', desc: 'Bypassing firewalls to access secure data streams.' },
+  { title: 'DDoS Attack', desc: 'Flooding target servers with traffic to overwhelm defenses.' },
+  { title: 'Malware Deployment', desc: 'Installing stealth malware to exfiltrate data.' },
+  { title: 'DNS Spoofing', desc: 'Redirecting domain requests to compromised endpoints.' }
+];
+
+function initMission() {
+  const mc = document.getElementById('mission-control');
+  const m = missionList[Math.floor(Math.random() * missionList.length)];
+  mc.innerHTML = `
+    <div class="mission-title">${m.title}</div>
+    <div class="mission-desc">${m.desc}</div>
+    <div class="mission-start">Start Mission</div>
+  `;
+  mc.querySelector('.mission-start').addEventListener('click', startMission);
+}
+
+function startMission() {
+  const mc = document.getElementById('mission-control');
+  mc.innerHTML = '<canvas id="missionCanvas"></canvas>';
+  // Simple terminal animation
+  const canvas = document.getElementById('missionCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = mc.clientWidth;
+  canvas.height = mc.clientHeight;
+  let elapsed = 0;
+  const interval = 200;
+  const timer = setInterval(() => {
+    const cmd = commands[Math.floor(Math.random() * commands.length)];
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    ctx.font = '16px monospace';
+    ctx.fillStyle = '#00BDEB';
+    ctx.fillText(cmd, x, y);
+    elapsed += interval;
+    if (elapsed >= 60000) {
+      clearInterval(timer);
+      initMission();
+      updateXp( Math.min(100, elapsed / 600), 100);
+    }
+  }, interval);
+}
+
+// Initialize mission on load
+document.addEventListener('DOMContentLoaded', initMission);
