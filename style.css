@@ -339,3 +339,17 @@ canvas {
   text-align: center;
   color: #fff;
 }
+
+/* ─── MOBILE OVERRIDE: KEEP RANK ROW HORIZONTAL ─────────────────── */
+@media (max-width: 500px) {
+  .hud-row--rank {
+    flex-direction: row !important;
+  }
+  .hud-row--rank .hud-cell {
+    border-bottom: none !important;
+    border-right: 1px solid #00BDEB;
+  }
+  .hud-row--rank .hud-cell:last-child {
+    border-right: none !important;
+  }
+}
