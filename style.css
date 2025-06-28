@@ -204,3 +204,53 @@ canvas {
   font-size: 1rem;
   z-index: 5;
 }
+
+
+/* ─── HUD STRUCTURE ─────────────────────────────────────────────── */
+.hud {
+  position: relative;
+  box-sizing: border-box;
+  border: 4px solid #00BDEB;
+  box-shadow: 0 0 30px rgba(0,189,235,0.7);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hud-row {
+  display: flex;
+  border-bottom: 1px solid #00BDEB;
+}
+
+.hud-row:last-child {
+  border-bottom: none;
+}
+
+.hud-cell {
+  flex: 1;
+  padding: 0.75rem;
+  border-right: 1px solid #00BDEB;
+  text-align: center;
+  color: #fff;
+}
+
+/* Remove right border on last cell in each row (for wallet row it is only one cell) */
+.hud-row--wallet .hud-cell {
+  border-right: none;
+}
+
+/* Responsive: single column on narrow screens */
+@media (max-width: 500px) {
+  .hud-row {
+    flex-direction: column;
+  }
+  .hud-cell {
+    border-right: none;
+    border-bottom: 1px solid #00BDEB;
+  }
+  .hud-cell:last-child {
+    border-bottom: none;
+  }
+}

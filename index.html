@@ -1,40 +1,36 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cyshadow: Code of Vengeance</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Cinzel+Decorative:ital,wght@0,400;1,400&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cyshadow: Code of Vengeance</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;family=Cinzel+Decorative:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-
 <!-- Entrance Screen -->
-<div id="entranceScreen" class="entrance-screen">
-  <canvas id="matrixCanvas"></canvas>
-  <div class="realistic-hacker-image"></div>
-
-  <div class="header-container">
-    <h1 class="entrance-title">CYSHADOW</h1>
-    <h2 class="entrance-subtitle">CODE OF VENGEANCE</h2>
-  </div>
-
-  <div id="walletAddress">Wallet: Not connected</div>
-
-  <button id="connectWalletBtn" class="connect-wallet-btn">CONNECT METAMASK</button>
-  <button id="beginProtocolBtn" class="begin-protocol-btn hidden">BEGIN PROTOCOL</button>
+<div class="entrance-screen" id="entranceScreen">
+<canvas id="matrixCanvas"></canvas>
+<div class="realistic-hacker-image"></div>
+<div class="header-container">
+<h1 class="entrance-title">CYSHADOW</h1>
+<h2 class="entrance-subtitle">CODE OF VENGEANCE</h2>
 </div>
-
+<div id="walletAddress">Wallet: Not connected</div>
+<button class="connect-wallet-btn" id="connectWalletBtn">CONNECT METAMASK</button>
+<button class="begin-protocol-btn hidden" id="beginProtocolBtn">BEGIN PROTOCOL</button>
+</div>
 <!-- Game Screen (clean slate) -->
-<div id="gameScreen" class="game-screen hidden">
-  <div class="laptop-perspective">
-    <!-- Fresh HUD content will go here -->
-  </div>
+<div class="game-screen hidden" id="gameScreen">
+<div class="laptop-perspective">
+<div class="hud" id="game-hud">
+<div class="hud-row hud-row--wallet">
+<div class="hud-cell" id="hud-wallet">Wallet: </div>
 </div>
-
+</div>
+</div>
+</div>
 <script src="game.js"></script>
 </body>
 </html>
