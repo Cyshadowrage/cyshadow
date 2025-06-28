@@ -115,16 +115,14 @@ canvas {
 
 /* ─── GAME SCREEN & HUD CONTAINER ─────────────────────────────────── */
 .game-screen {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
   margin: 0;
   background-color: #000;
-  box-sizing: border-box;
-  border: 4px solid #00BDEB;
-  box-shadow: 0 0 30px rgba(0, 189, 235, 0.7);
+  position: relative;
 }
 
 .hidden {
@@ -173,7 +171,8 @@ canvas {
     border-radius: 0;
     box-sizing: border-box;
   }
-  .game-screen { padding: 0; }
+  .game-screen { padding: 0;   position: relative;
+}
 }
 @media screen and (min-width: 768px) {
   .laptop-perspective {
@@ -183,45 +182,25 @@ canvas {
     border-radius: 0;
     box-sizing: border-box;
   }
-  .game-screen { padding: 0; }
+  .game-screen { padding: 0;   position: relative;
+}
 }
 
-/* HUD Step 3: Wallet Box */
-.hud-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-auto-rows: auto;
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  background: transparent;
-  overflow: hidden;
-}
+/* Step 6: Position wallet box to connect top inner border */
 .hud-wallet {
-  grid-row: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 5px;
-  padding: 0.75rem;
-  color: #fff;
-  text-align: center;
-  font-size: 1rem;
-}
-
-
-/* Step 4: Flush wallet box border to connect with screen border */
-.hud-grid {
-  padding: 0 !important;
-}
-.hud-wallet {
-  width: 100%;
-  margin: 0;
-  background-color: rgba(0, 0, 0, 0.6) !important;
-  border-top: none !important;
   border-left: 4px solid #00BDEB !important;
   border-right: 4px solid #00BDEB !important;
-  border-bottom: 2px solid #00BDEB !important;
+  border-bottom: 4px solid #00BDEB !important;
+  border-top: none !important;
   border-radius: 0 !important;
-  box-shadow: none !important;
+  padding: 0.75rem;
   box-sizing: border-box;
+  text-align: center;
+  font-size: 1rem;
+  z-index: 5;
 }
