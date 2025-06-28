@@ -110,6 +110,7 @@ async function connectWallet() {
 document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
 
 document.getElementById('beginProtocolBtn').addEventListener('click', () => {
+  initHUD();
   if (!connectedWallet) {
     alert("Please connect wallet first.");
     return;
@@ -117,3 +118,13 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => {
   document.getElementById('entranceScreen').classList.add('hidden');
   document.getElementById('gameScreen').classList.remove('hidden');
 });
+
+
+function initHUD() {
+  // Mask and display connected wallet address
+  const raw = connectedWallet || '';
+  const masked = raw.length >= 8
+    ? raw.substring(0, 4) + '...' + raw.substring(raw.length - 4)
+    : raw;
+  document.getElementById('hud-wallet').textContent = 'Wallet: ' + masked;
+}
