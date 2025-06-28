@@ -121,6 +121,7 @@ async function connectWallet() {
 document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
 
 document.getElementById('beginProtocolBtn').addEventListener('click', () => {
+  updateXp(0, 100);
   if (!connectedWallet) {
     alert("Please connect wallet first.");
     return;
@@ -128,3 +129,15 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => {
   document.getElementById('entranceScreen').classList.add('hidden');
   document.getElementById('gameScreen').classList.remove('hidden');
 });
+
+
+// Update XP pill fill and text
+function updateXp(currentPercent, maxPercent) {
+  const xpFill = document.getElementById('xp-fill');
+  const xpText = document.getElementById('xp-text');
+  if (xpFill && xpText) {
+    const percent = Math.round((currentPercent / maxPercent) * 100);
+    xpFill.style.width = percent + '%';
+    xpText.textContent = percent + '%/' + maxPercent + '%';
+  }
+}
