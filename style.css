@@ -54,8 +54,6 @@ canvas {
   padding: 5vh 2vw;
   box-sizing: border-box;
   text-align: center;
-  z-index: 3;
-  position: relative;
 }
 
 /* Entrance Title */
@@ -65,6 +63,8 @@ canvas {
   color: #00BDEB;
   text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
   margin: 0;
+  z-index: 3;
+  position: relative;
   font-style: italic;
 }
 
@@ -76,18 +76,20 @@ canvas {
   color: #ffffff;
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
   margin-top: 1vh;
+  z-index: 3;
+  position: relative;
 }
 
 /* Wallet Address */
 #walletAddress {
   color: #fff;
   margin-bottom: 10px;
+  z-index: 3;
+  position: relative;
   max-width: 80vw;
   word-break: break-all;
   overflow-wrap: break-word;
   text-align: center;
-  z-index: 3;
-  position: relative;
 }
 
 /* Connect / Begin Buttons */
@@ -111,7 +113,46 @@ canvas {
   display: none !important;
 }
 
-/* ─── SCROLLABLE ON SHORT VIEWPORTS ───────────────────────────────── */
+/* ─── GAME SCREEN & HUD CONTAINER ─────────────────────────────────── */
+.game-screen {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #000;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.laptop-perspective {
+  border-radius: 20px;
+  min-height: 500px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #00ffff;
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+}
+
+/* Keep entrance elements above canvas */
+.header-container,
+.realistic-hacker-image,
+.connect-wallet-btn,
+.begin-protocol-btn,
+#walletAddress {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ─── SCROLLABLE ON SHORT VIEWPORTS ──────────────────────────────── */
 @media screen and (max-height: 650px) {
   .entrance-screen {
     overflow-y: auto;
@@ -119,51 +160,57 @@ canvas {
     justify-content: flex-start;
   }
 }
-@media screen and (min-height: 651px) {
-  .entrance-screen {
-    overflow: hidden;
-    justify-content: center;
+
+/* ─── RESPONSIVE HUD CONTAINER SIZING ─────────────────────────────── */
+@media screen and (max-width: 600px) {
+  .laptop-perspective {
+    width: 100vw;
+    height: 100vh;
+    padding: 5vh 5vw;
+    border-radius: 0;
+    box-sizing: border-box;
   }
+  .game-screen { padding: 0; }
+}
+@media screen and (min-width: 768px) {
+  .laptop-perspective {
+    width: 100vw;
+    height: 100vh;
+    padding: 5vh 5vw;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+  .game-screen { padding: 0; }
 }
 
-/* ─── GAME SCREEN & BASIC RESET ───────────────────────────────────── */
-.game-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  position: relative;
-  overflow: hidden;
-}
 
-.hidden {
-  display: none !important;
-}
-
-/* ─── HUD GRID LAYOUT ──────────────────────────────────────────────── */
+/* HUD Grid Layout and Glow Borders */
 .hud-grid {
   display: grid;
   grid-template-columns: minmax(1fr, 200px) auto minmax(1fr, 200px);
   grid-template-rows:
-    auto  /* wallet */
-    auto  /* rank, xp, lb */
-    auto  /* hs, energy, plai */
-    auto  /* status */
-    auto  /* mission-desc */
-    auto  /* start button */
-    auto  /* timer */
-    1fr   /* console */
-    auto; /* footer */
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    1fr
+    auto;
   gap: 0.5rem;
   width: 100%;
   height: 100%;
   padding: 1rem;
   box-sizing: border-box;
 }
-
-/* Grid areas */
+.hud-grid > * {
+  border: 1px solid #00BDEB;
+  box-shadow: 0 0 10px rgba(0, 189, 235, 0.6);
+  padding: 0.5rem;
+  color: #fff;
+}
+/* Specific grid-area placements */
 .hud-wallet       { grid-column: 1 / -1; }
 .hud-rank         { grid-column: 1 / 2; }
 .hud-xpbar        { grid-column: 2 / 3; display: flex; justify-content: center; align-items: center; position: relative; }
@@ -173,21 +220,19 @@ canvas {
 .hud-plai         { grid-column: 3 / 4; text-align: right; }
 .hud-status       { grid-column: 1 / -1; }
 .hud-mission-desc { grid-column: 1 / -1; overflow-y: auto; }
-.hud-start        { grid-column: 2 / 3; justify-self: center; padding: 0.8rem 1.2rem; background: #00BDEB; border: none; border-radius: 5px; cursor: pointer; }
+.hud-start        { grid-column: 2 / 3; justify-self: center; background: #00BDEB; border: none; border-radius: 5px; cursor: pointer; }
 .hud-timer        { grid-column: 1 / -1; justify-self: center; }
-.hud-console      { grid-column: 1 / -1; background: #111; color: #0f0; font-family: monospace; padding: 0.5rem; overflow-y: auto; }
-.hud-logout       { grid-column: 1 / 2; justify-self: start; padding: 0.5rem 1rem; background: #333; border: none; border-radius: 5px; cursor: pointer; }
-.hud-menu-btn     { grid-column: 3 / 4; justify-self: end; padding: 0.5rem 1rem; background: #333; border: none; border-radius: 5px; cursor: pointer; }
-
-/* ─── RESPONSIVE: SINGLE COLUMN ON NARROW SCREENS ─────────────────── */
+.hud-console      { grid-column: 1 / -1; background: #000; color: #0f0; font-family: monospace; overflow-y: auto; }
+.hud-logout       { grid-column: 1 / 2; justify-self: start; }
+.hud-menu-btn     { grid-column: 3 / 4; justify-self: end; }
+/* Responsive single-column on narrow screens */
 @media (max-width: 500px) {
   .hud-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(9, auto) 1fr auto;
+    grid-template-rows: repeat(8, auto) 1fr auto;
   }
   .hud-grid > * {
     grid-column: 1 / -1 !important;
-    justify-self: center !important;
-    text-align: center !important;
+    text-align: center;
   }
 }

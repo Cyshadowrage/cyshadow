@@ -1,117 +1,133 @@
-// MATRIX BACKGROUND ANIMATION
-const canvas = document.getElementById('matrixCanvas');
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
+// Ambient background animation and HUD reveal after entrance
+const commands = [
+  'ping nexus_corp -t', 'decrypt --key 0xf3b1c4a9', 'breach --firewall --deep',
+  'inject retribution.exe', 'netstat /trace /stealth', 'sudo erase --history',
+  'download payload.pkg', 'uplink established ✔', 'trace.mask.enabled',
+  'rm -rf /root/nexus', 'dns spoof: ACTIVE', 'backdoor.exe loading...',
+  'ssh -i ghost_key root@target', 'loop breach > trace.block',
+  'auth override: 0x9A7F', 'tracking disabled', 'chain.inject(success)',
+  'threat neutralized', 'shell opened: #root', 'AI bypass granted',
+  'proxy tunnel created', 'bootloader hacked', 'logging disabled',
+  'sysinfo dump → /tmp', ':: uploading vengeance'
+];
 
-// Resize canvas on window resize
-window.addEventListener('resize', () => {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-});
+const redAlerts = [
+  'CRITICAL BREACH DETECTED', 'WARNING: NEXUS TRACE INITIATED',
+  'UNAUTHORIZED ACCESS FLAGGED', 'ALERT: TRACE LOCATED',
+  'FIREWALL OVERRIDE FAILED', 'SECURITY TRIPWIRE TRIGGERED',
+  'COUNTER-INTEL DEPLOYED', 'CORE DUMP ENGAGED',
+  'MALWARE SIGNATURE DETECTED', 'TRACE NEARBY — DISCONNECT NOW'
+];
 
-const letters = 'abcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%+-/~{[|`]}';
-const fontSize = 16;
-let columns = Math.floor(width / fontSize);
-let drops = Array(columns).fill(0);
+let flashes = [], redFlashes = [];
 
-// Update drops array on resize
-function resetMatrix() {
-  columns = Math.floor(width / fontSize);
-  drops = Array(columns).fill(0);
-}
-window.addEventListener('resize', resetMatrix);
+function drawAmbientBackground() {
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-// Draw the matrix
-function drawMatrix() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-  ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = '#0F0';
-  ctx.font = `${fontSize}px monospace`;
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 10, 20, 0.12)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    const x = i * fontSize;
-    const y = drops[i] * fontSize;
-    ctx.fillText(text, x, y);
-
-    if (y > height && Math.random() > 0.975) {
-      drops[i] = 0;
+    for (let i = 0; i < 8; i++) {
+      const cmd = commands[Math.floor(Math.random() * commands.length)];
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      ctx.font = '16px monospace';
+      ctx.fillStyle = '#00BDEB';
+      ctx.fillText(cmd, x, y);
     }
-    drops[i]++;
+
+    flashes.forEach(flash => {
+      const { text, x, y, age, maxAge } = flash;
+      const opacity = 1 - age / maxAge;
+      ctx.font = 'bold 20px monospace';
+      ctx.fillStyle = `rgba(0, 255, 255, ${opacity})`;
+      ctx.fillText(text, x, y);
+      flash.age++;
+    });
+
+    redFlashes.forEach(alert => {
+      const { text, x, y, age, maxAge } = alert;
+      const opacity = 1 - age / maxAge;
+      ctx.font = 'bold 22px monospace';
+      ctx.fillStyle = `rgba(255, 0, 0, ${opacity})`;
+      ctx.fillText(text, x, y);
+      alert.age++;
+    });
+
+    flashes = flashes.filter(f => f.age < f.maxAge);
+    redFlashes = redFlashes.filter(r => r.age < r.maxAge);
+  }
+
+  setInterval(() => {
+    const cmd = commands[Math.floor(Math.random() * commands.length)];
+    flashes.push({ text: cmd, x: Math.random() * canvas.width, y: Math.random() * canvas.height, age: 0, maxAge: 50 + Math.random() * 30 });
+  }, 1500);
+
+  setInterval(() => {
+    const alert = redAlerts[Math.floor(Math.random() * redAlerts.length)];
+    redFlashes.push({ text: alert, x: Math.random() * canvas.width, y: Math.random() * canvas.height, age: 0, maxAge: 70 + Math.random() * 40 });
+  }, 4000);
+
+  setInterval(draw, 200);
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
+
+drawAmbientBackground();
+
+// Wallet + Screen Transitions
+let connectedWallet = null;
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    alert("MetaMask is not installed!");
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    connectedWallet = accounts[0];
+    document.getElementById('walletAddress').textContent = `Wallet: ${connectedWallet}`;
+    document.getElementById('connectWalletBtn').classList.add('hidden');
+    document.getElementById('beginProtocolBtn').classList.remove('hidden');
+
+    const baseChainId = '0x2105'; // Base Mainnet
+    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: baseChainId }] });
+
+  } catch (err) {
+    console.error(err);
+    alert("Failed to connect or switch network.");
   }
 }
-setInterval(drawMatrix, 50);
 
-// ENTRANCE & HUD LOGIC
-document.addEventListener('DOMContentLoaded', () => {
-  const connectBtn = document.getElementById('connectWalletBtn');
-  const beginBtn = document.getElementById('beginProtocolBtn');
+document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
 
-  connectBtn.addEventListener('click', async () => {
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
-        document.getElementById('walletAddress').textContent = `Wallet: ${account}`;
-        connectBtn.classList.add('hidden');
-        beginBtn.classList.remove('hidden');
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      alert('Please install MetaMask');
-    }
-  });
-
-  beginBtn.addEventListener('click', () => {
-    showHUD();
-  });
+document.getElementById('beginProtocolBtn').addEventListener('click', () => { showHUD();
+  if (!connectedWallet) {
+    alert("Please connect wallet first.");
+    return;
+  }
+  document.getElementById('entranceScreen').classList.add('hidden');
+  document.getElementById('gameScreen').classList.remove('hidden');
 });
 
-function hideEntrance() {
-  document.getElementById('entranceScreen').classList.add('hidden');
-}
 
 function showHUD() {
-  hideEntrance();
+  document.getElementById('entranceScreen').classList.add('hidden');
   document.getElementById('gameScreen').classList.remove('hidden');
-  const hudGrid = document.getElementById('game-hud');
-  hudGrid.classList.remove('hidden');
+  document.getElementById('game-hud').classList.remove('hidden');
   initHUD();
 }
 
 function initHUD() {
+  // Placeholder: future mission logic and console prompts
   const walletEl = document.getElementById('hud-wallet');
-  const rankEl = document.getElementById('hud-rank');
-  const xpFill = document.getElementById('hud-xp-fill');
-  const xpText = document.getElementById('hud-xp-text');
-  const lbEl = document.getElementById('hud-lb');
-  const hsEl = document.getElementById('hud-hs');
-  const energyEl = document.getElementById('hud-energy');
-  const plaiEl = document.getElementById('hud-plai');
-  const statusEl = document.getElementById('hud-status');
-  const descEl = document.getElementById('hud-mission-desc');
-  const startBtn = document.getElementById('hud-start');
-  const timerEl = document.getElementById('hud-timer');
-  const consoleEl = document.getElementById('hud-console');
-  const logoutBtn = document.getElementById('hud-logout');
-  const menuBtn = document.getElementById('hud-menu-btn');
-
-  // Populate wallet address into HUD
-  const addrText = document.getElementById('walletAddress').textContent;
-  walletEl.textContent = addrText;
-
-  // Start mission stub
-  startBtn.addEventListener('click', () => {
-    statusEl.textContent = 'Executing mission...';
-    timerEl.textContent = '00:00';
-    consoleEl.innerHTML = '';
-    // TODO: implement command-prompt loop and mission timer
-  });
-
-  // Logout / reload
-  logoutBtn.addEventListener('click', () => {
-    location.reload();
-  });
+  walletEl.textContent = document.getElementById('walletAddress').textContent;
 }
