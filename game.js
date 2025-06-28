@@ -257,3 +257,69 @@ function startMission(mission) {
 
 // Kick off the first mission on load
 document.addEventListener('DOMContentLoaded', initMission);
+
+
+// Start mission: CLI-style terminal with command-response and countdown
+function startMission(mission) {
+  const mc = document.getElementById('mission-control');
+  mc.innerHTML = `
+    <div id="mission-timer">60s</div>
+    <div id="mission-terminal"></div>
+  `;
+  const timerEl = document.getElementById('mission-timer');
+  const termEl = document.getElementById('mission-terminal');
+  let remaining = 60;
+
+  // Countdown timer
+  const timerInterval = setInterval(() => {
+    remaining--;
+    timerEl.textContent = remaining + 's';
+    if (remaining <= 0) clearInterval(timerInterval);
+  }, 1000);
+
+  // Command-response entries
+  const entries = [
+    { cmd: `ssh ${mission.title.toLowerCase().replace(/\s+/g, '_')}@target`, res: 'Authentication successful.' },
+    { cmd: `run_payload --mission=${mission.title.toLowerCase().replace(/\s+/g, '_')}`, res: 'Payload executed.' },
+    { cmd: 'probing network...', res: 'Open ports: 22, 80, 443' },
+    { cmd: 'deploying backdoor...', res: 'Backdoor installed.' },
+    { cmd: 'extracting data...', res: 'Data transfer: 24MB/s' },
+    { cmd: 'elevate_privileges', res: 'Root access granted.' },
+    { cmd: 'mask_traffic --on', res: 'Traffic masked.' },
+    { cmd: 'log_activity --export', res: 'Logs saved to /tmp/logs.txt' },
+    { cmd: 'disconnect', res: 'Session terminated.' }
+  ];
+  let entryIndex = 0;
+  const maxLines = 12; // maximum lines to show
+
+  // Log interval
+  const logInterval = setInterval(() => {
+    if (remaining <= 0) {
+      clearInterval(logInterval);
+      initMission();
+      updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
+      return;
+    }
+    // Append command
+    const entry = entries[entryIndex];
+    const cmdLine = document.createElement('div');
+    cmdLine.textContent = entry.cmd;
+    termEl.appendChild(cmdLine);
+    // Append response after a short delay
+    setTimeout(() => {
+      const resLine = document.createElement('div');
+      resLine.textContent = entry.res;
+      termEl.appendChild(resLine);
+      // Ensure max lines: remove top if exceeding
+      while (termEl.children.length > maxLines) {
+        termEl.removeChild(termEl.firstChild);
+      }
+      termEl.scrollTop = termEl.scrollHeight;
+    }, 500);
+
+    entryIndex = (entryIndex + 1) % entries.length;
+  }, 2000);
+}
+
+// Initialize mission on load
+document.addEventListener('DOMContentLoaded', initMission);
