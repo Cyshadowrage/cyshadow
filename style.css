@@ -424,3 +424,34 @@ canvas {
   text-align: center;
   color: #fff;
 }
+
+/* ─── STATS ROW: PLAI, HS, ENERGY, LB ──────────────────────────── */
+.hud-row--stats .hud-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: clamp(0.9rem, 4vw, 1.2rem);
+}
+
+/* Icon sizing */
+.hud-row--stats .icon {
+  display: inline-block;
+  width: clamp(1.2rem, 4vw, 1.5rem);
+  height: clamp(1.2rem, 4vw, 1.5rem);
+}
+
+/* PLAI logo as a mask to apply theme color */
+.plai-icon {
+  mask: url('assets/plai-logo.svg') no-repeat center / contain;
+  -webkit-mask: url('assets/plai-logo.svg') no-repeat center / contain;
+  background-color: #00BDEB;
+}
+
+/* Ensure borders and background are consistent */
+@media (max-width: 500px) {
+  .hud-row--stats {
+    flex-direction: row !important;
+  }
+}
