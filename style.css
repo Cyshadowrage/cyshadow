@@ -320,3 +320,22 @@ canvas {
     margin: 0 auto;
   }
 }
+
+/* ─── RANK & XP ROW STYLES ───────────────────────────────── */
+.hud-row--rank .hud-cell:first-child {
+  flex: 3;
+}
+.hud-row--rank .hud-cell:last-child {
+  flex: 7;
+}
+/* XP pill styling */
+.xp-pill {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00BDEB;
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  text-align: center;
+  color: #fff;
+}
