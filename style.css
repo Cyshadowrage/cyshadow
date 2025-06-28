@@ -86,6 +86,10 @@ canvas {
   margin-bottom: 10px;
   z-index: 3;
   position: relative;
+  max-width: 80vw;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 /* Connect / Begin Buttons */
@@ -154,12 +158,6 @@ canvas {
     overflow-y: auto;
     overflow-x: hidden;
     justify-content: flex-start;
-  }
-}
-@media screen and (min-height: 651px) {
-  .entrance-screen {
-    overflow: hidden;
-    justify-content: center;
   }
 }
 
