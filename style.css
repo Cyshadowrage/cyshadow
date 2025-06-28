@@ -469,11 +469,6 @@ canvas {
   }
 }
 
-/* ─── MISSION CONTROL ROW ───────────────────────────── */
-.hud-row--mission {
-  flex: 4;
-  border-bottom: none;
-}
 .hud-row--mission .hud-cell {
   padding: 1rem;
   display: flex;
@@ -510,4 +505,28 @@ canvas {
   width: 100%;
   height: 100%;
   background-color: #000;
+}
+
+
+/* ─── CONSTRAIN MISSION ROW ───────────────────────────────── */
+.hud-row--mission {
+  flex: none;
+  height: clamp(180px, 30vh, 250px);
+  border-bottom: 1px solid #00BDEB;
+  overflow: hidden;
+  position: relative;
+}
+
+.hud-row--mission .hud-cell {
+  padding: 0.75rem;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+#mission-control,
+#missionCanvas {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
 }
