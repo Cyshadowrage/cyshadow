@@ -442,12 +442,13 @@ canvas {
   height: clamp(1.2rem, 4vw, 1.5rem);
 }
 
-/* PLAI logo as a mask to apply theme color */
+/* PLAI icon image styling */
 .plai-icon {
-  mask: url('assets/plai-logo.svg') no-repeat center / contain;
-  -webkit-mask: url('assets/plai-logo.svg') no-repeat center / contain;
-  background-color: #00BDEB;
+  width: clamp(1.2rem, 4vw, 1.5rem);
+  height: clamp(1.2rem, 4vw, 1.5rem);
+  object-fit: contain;
 }
+
 
 /* Ensure borders and background are consistent */
 @media (max-width: 500px) {
