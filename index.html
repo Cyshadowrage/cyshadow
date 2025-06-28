@@ -18,11 +18,11 @@
   <div class="realistic-hacker-image"></div>
 
   <div class="header-container">
-    <h1 class="entrance-title">CYSHADOW</h1>
-    <h2 class="entrance-subtitle">CODE OF VENGEANCE</h2>
+    <h1 class="entrance-title">Cyshadow: Code of Vengeance</h1>
+    <h2 class="entrance-subtitle">Unleash the hacker within</h2>
   </div>
 
-  <div id="walletAddress">Wallet: Not connected</div>
+  <p id="walletAddress">Wallet: Not connected</p>
 
   <button id="connectWalletBtn" class="connect-wallet-btn">CONNECT METAMASK</button>
   <button id="beginProtocolBtn" class="begin-protocol-btn hidden">BEGIN PROTOCOL</button>
@@ -31,7 +31,25 @@
 <!-- Game Screen (clean slate) -->
 <div id="gameScreen" class="game-screen hidden">
   <div class="laptop-perspective">
-    <!-- Fresh HUD content will go here -->
+    <div id="game-hud" class="hud-grid hidden">
+      <div class="hud-wallet" id="hud-wallet">Wallet: </div>
+      <div class="hud-rank" id="hud-rank">Rank: 0%</div>
+      <div class="hud-xpbar" id="hud-xpbar">
+        <div class="xp-fill" id="hud-xp-fill" style="width: 0%;"></div>
+        <span class="xp-text" id="hud-xp-text">0/100%</span>
+      </div>
+      <div class="hud-lb" id="hud-lb">LB: 0</div>
+      <div class="hud-hs" id="hud-hs">HS: 10</div>
+      <div class="hud-energy" id="hud-energy">Energy: 1000</div>
+      <div class="hud-plai" id="hud-plai">$PLAI: 0</div>
+      <div class="hud-status" id="hud-status">Awaiting commands</div>
+      <div class="hud-mission-desc" id="hud-mission-desc">Select a mission...</div>
+      <button class="hud-start" id="hud-start">Start Mission</button>
+      <div class="hud-timer" id="hud-timer">00:00</div>
+      <div class="hud-console" id="hud-console"></div>
+      <button class="hud-logout" id="hud-logout">Exit</button>
+      <button class="hud-menu-btn" id="hud-menu-btn">☰</button>
+    </div>
   </div>
 </div>
 
