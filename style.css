@@ -455,3 +455,15 @@ canvas {
     flex-direction: row !important;
   }
 }
+
+
+/* ─── MOBILE STATS ROW BORDERS OVERRIDE ───────────────────────── */
+@media (max-width: 500px) {
+  .hud-row--stats .hud-cell {
+    border-bottom: none !important;
+    border-right: 1px solid #00BDEB !important;
+  }
+  .hud-row--stats .hud-cell:last-child {
+    border-right: none !important;
+  }
+}
