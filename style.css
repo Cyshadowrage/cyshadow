@@ -354,7 +354,48 @@ canvas {
   }
 }
 
-/* ─── XP PILL FULLWIDTH & FILL STYLES ─────────────────────────────── */
+
+/* ─── XP PILL FULLWIDTH & FILL STYLES (UPDATED) ───────────────────── */
+.xp-pill {
+  position: relative;
+  width: 90%;
+  max-width: 100%;
+  margin: 0 auto;
+  height: clamp(1.25rem, 3vw, 1.75rem);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00BDEB;
+  border-radius: 999px;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.xp-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #00BDEB;
+  transition: width 0.3s ease;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.xp-text {
+  position: relative;
+  z-index: 2;
+  display: block;
+  text-align: center;
+  color: #fff;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  /* ensure centered vertically */
+  margin: 0;
+  line-height: 1;
+}
+
 .xp-pill {
   position: relative;
   width: 100%;
