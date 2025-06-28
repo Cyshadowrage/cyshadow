@@ -95,17 +95,6 @@ async function connectWallet() {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     connectedWallet = accounts[0];
     document.getElementById('walletAddress').textContent = `Wallet: ${connectedWallet}`;
-    const hudWalletEl = document.getElementById('hud-wallet');
-    if (hudWalletEl) {
-      hudWalletEl.textContent = `Wallet: ${connectedWallet}`;
-    }
-    // Also update the in-game HUD wallet cell
-    const hudWalletCell = document.getElementById('hud-wallet');
-    if (hudWalletCell) {
-      // Shorten address to 0xABCD...1234
-      const shortWallet = `0x${connectedWallet.slice(2, 6)}...${connectedWallet.slice(-4)}`;
-      hudWalletCell.textContent = `Wallet: ${shortWallet}`;
-    }
     document.getElementById('connectWalletBtn').classList.add('hidden');
     document.getElementById('beginProtocolBtn').classList.remove('hidden');
 
