@@ -257,28 +257,3 @@ function startMission(mission) {
 
 // Kick off the first mission on load
 document.addEventListener('DOMContentLoaded', initMission);
-
-// ─── ACTIONS ROW FUNCTIONALITY ───────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      document.getElementById('gameScreen').classList.add('hidden');
-      document.getElementById('entranceScreen').classList.remove('hidden');
-      document.getElementById('hud-wallet').textContent = 'Wallet: ';
-      connectedWallet = '';
-    });
-  }
-  const shopBtn = document.getElementById('shopBtn');
-  if (shopBtn) {
-    shopBtn.addEventListener('click', () => {
-      alert('Shop is under development.');
-    });
-  }
-  const infoBtn = document.getElementById('infoBtn');
-  if (infoBtn) {
-    infoBtn.addEventListener('click', () => {
-      alert('Game info coming soon.');
-    });
-  }
-});
