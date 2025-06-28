@@ -50,41 +50,46 @@ canvas {
   align-items: center;
   justify-content: center;
   width: 100vw;
+  max-width: 100%;
   padding: 5vh 2vw;
+  box-sizing: border-box;
   text-align: center;
-  z-index: 3;
-  position: relative;
 }
 
 /* Entrance Title */
-.entrance-title {
+.header-container .entrance-title {
   font-family: 'Cinzel Decorative', cursive;
   font-size: clamp(32px, 8vw, 72px);
   color: #00BDEB;
   text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
   margin: 0;
+  z-index: 3;
+  position: relative;
   font-style: italic;
 }
 
 /* Entrance Subtitle */
-.entrance-subtitle {
+.header-container .entrance-subtitle {
   font-family: 'Cinzel Decorative', cursive;
   font-style: italic;
   font-size: clamp(18px, 4vw, 32px);
   color: #ffffff;
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
   margin-top: 1vh;
+  z-index: 3;
+  position: relative;
 }
 
 /* Wallet Address */
 #walletAddress {
   color: #fff;
   margin-bottom: 10px;
-  max-width: 80vw;
-  word-break: break-all;
-  text-align: center;
   z-index: 3;
   position: relative;
+  max-width: 80vw;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 /* Connect / Begin Buttons */
@@ -108,135 +113,72 @@ canvas {
   display: none !important;
 }
 
-/* Scrollable on short viewports */
-@media screen and (max-height: 650px) {
-  .entrance-screen {
-    overflow-y: auto;
-    justify-content: flex-start;
-  }
-}
-
-/* ─── GAME SCREEN ─────────────────────────────────────────────────── */
+/* ─── GAME SCREEN & HUD CONTAINER ─────────────────────────────────── */
 .game-screen {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
+  margin: 0;
   background-color: #000;
-  position: relative;
-  overflow: hidden;
 }
 
-/* ─── LAPTOP PERSPECTIVE ──────────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
 .laptop-perspective {
   border-radius: 20px;
+  min-height: 500px;
   padding: 20px;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  color: #00ffff;
+  position: relative;
   width: 90%;
   max-width: 900px;
-  height: auto;
-  position: relative;
-  overflow: auto;
 }
 
-/* ─── HUD GRID LAYOUT & GLOW BORDER ───────────────────────────────── */
-.hud-grid {
-  display: grid;
-  grid-template-areas:
-    "wallet wallet wallet"
-    "rank xp lb"
-    "hs energy plai"
-    "status status status"
-    "desc desc desc"
-    "start start start"
-    "timer timer timer"
-    "console console console"
-    "logout . menu";
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: auto;
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  border: 2px solid #00BDEB;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 189, 235, 0.6);
-  background-color: rgba(0,0,0,0.5);
-  gap: 0.5rem;
-  overflow: hidden;
+/* Keep entrance elements above canvas */
+.header-container,
+.realistic-hacker-image,
+.connect-wallet-btn,
+.begin-protocol-btn,
+#walletAddress {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-/* HUD Items */
-.hud-grid > * {
-  background-color: rgba(0,0,0,0.6);
-  border-radius: 8px;
-  padding: 0.5rem;
-  text-align: center;
-  color: #fff;
-  overflow: hidden;
-}
-
-/* Grid Areas */
-.hud-wallet       { grid-area: wallet; }
-.hud-rank         { grid-area: rank; }
-.hud-xpbar        { grid-area: xp; display: flex; justify-content: center; align-items: center; }
-.hud-lb           { grid-area: lb; }
-.hud-hs           { grid-area: hs; }
-.hud-energy       { grid-area: energy; }
-.hud-plai         { grid-area: plai; }
-.hud-status       { grid-area: status; }
-.hud-mission-desc { grid-area: desc; overflow-y: auto; }
-.hud-start        { grid-area: start; justify-self: center; background-color: #00BDEB; color: #000; border: none; border-radius: 5px; cursor: pointer; }
-.hud-timer        { grid-area: timer; justify-self: center; }
-.hud-console      { grid-area: console; background-color: #000; color: #0f0; font-family: monospace; overflow-y: auto; }
-.hud-logout       { grid-area: logout; justify-self: start; -webkit-appearance: none; appearance: none; background-color: #00BDEB; color: #000; border: none; cursor: pointer; border-radius: 5px; }
-.hud-menu-btn     { grid-area: menu; justify-self: end; -webkit-appearance: none; appearance: none; background-color: #00BDEB; color: #000; border: none; cursor: pointer; border-radius: 5px; }
-
-/* ─── RESPONSIVE: ADJUST COLUMNS ──────────────────────────────────── */
-@media (max-width: 800px) {
-  .hud-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-      "wallet wallet"
-      "rank xp"
-      "lb hs"
-      "energy plai"
-      "status status"
-      "desc desc"
-      "start start"
-      "timer timer"
-      "console console"
-      "logout menu";
+/* ─── SCROLLABLE ON SHORT VIEWPORTS ──────────────────────────────── */
+@media screen and (max-height: 650px) {
+  .entrance-screen {
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-start;
   }
 }
 
-@media (max-width: 500px) {
-  .hud-grid {
-    grid-template-areas:
-      "wallet"
-      "rank"
-      "xp"
-      "lb"
-      "hs"
-      "energy"
-      "plai"
-      "status"
-      "desc"
-      "start"
-      "timer"
-      "console"
-      "logout"
-      "menu";
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    padding: 0.5rem;
+/* ─── RESPONSIVE HUD CONTAINER SIZING ─────────────────────────────── */
+@media screen and (max-width: 600px) {
+  .laptop-perspective {
+    width: 100vw;
+    height: 100vh;
+    padding: 5vh 5vw;
+    border-radius: 0;
+    box-sizing: border-box;
   }
-  .hud-grid > * {
-    padding: 0.75rem;
+  .game-screen { padding: 0; }
+}
+@media screen and (min-width: 768px) {
+  .laptop-perspective {
+    width: 100vw;
+    height: 100vh;
+    padding: 5vh 5vw;
+    border-radius: 0;
+    box-sizing: border-box;
   }
+  .game-screen { padding: 0; }
 }

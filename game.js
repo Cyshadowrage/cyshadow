@@ -72,7 +72,7 @@ function drawAmbientBackground() {
     redFlashes.push({ text: alert, x: Math.random() * canvas.width, y: Math.random() * canvas.height, age: 0, maxAge: 70 + Math.random() * 40 });
   }, 4000);
 
-  setInterval(draw, 400);
+  setInterval(draw, 200);
 
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
@@ -109,7 +109,7 @@ async function connectWallet() {
 
 document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
 
-document.getElementById('beginProtocolBtn').addEventListener('click', () => { showHUD();
+document.getElementById('beginProtocolBtn').addEventListener('click', () => {
   if (!connectedWallet) {
     alert("Please connect wallet first.");
     return;
@@ -117,17 +117,3 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => { sh
   document.getElementById('entranceScreen').classList.add('hidden');
   document.getElementById('gameScreen').classList.remove('hidden');
 });
-
-
-function showHUD() {
-  document.getElementById('entranceScreen').classList.add('hidden');
-  document.getElementById('gameScreen').classList.remove('hidden');
-  document.getElementById('game-hud').classList.remove('hidden');
-  initHUD();
-}
-
-function initHUD() {
-  // Placeholder: future mission logic and console prompts
-  const walletEl = document.getElementById('hud-wallet');
-  walletEl.textContent = document.getElementById('walletAddress').textContent;
-}
