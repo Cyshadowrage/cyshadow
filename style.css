@@ -115,7 +115,7 @@ canvas {
 
 /* ─── GAME SCREEN & HUD CONTAINER ─────────────────────────────────── */
 .game-screen {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;

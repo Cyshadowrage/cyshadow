@@ -72,7 +72,7 @@ function drawAmbientBackground() {
     redFlashes.push({ text: alert, x: Math.random() * canvas.width, y: Math.random() * canvas.height, age: 0, maxAge: 70 + Math.random() * 40 });
   }, 4000);
 
-  setInterval(draw, 200);
+  setInterval(draw, 400);
 
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
