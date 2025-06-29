@@ -572,6 +572,7 @@ canvas {
   overflow-y: auto;
   border: 1px solid #00BDEB;
   border-radius: 0.25rem;
+  text-align: left;
 }
 
 /* ─── HUD ACTION BUTTONS ─────────────────────────────────────────── */
