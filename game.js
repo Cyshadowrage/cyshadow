@@ -224,34 +224,29 @@ function startMission(mission) {
     }
   }, 1000);
 
-  // Terminal logs related to mission
-  const logs = [
+  // Initial CLI banner logs
+  [
     `Connecting to ${mission.title.toLowerCase().replace(/ /g, '_')}...`,
-    'Authentication successful.',
-    `${mission.title} sequence initiated.`,
-    'Bypassing security protocols...',
-    'Elevating privileges...',
-    'Injecting payload...',
-    'Monitoring system response...',
-    'Extracting sensitive data...',
-    'Logging activity...',
-    'Terminating session.'
-  ];
-  let logIndex = 0;
-
-  // Log interval
-  const logInterval = setInterval(() => {
-    const line = logs[logIndex];
+    'Authentication successful.'
+  ].forEach(line => {
     const p = document.createElement('div');
     p.textContent = line;
     termEl.appendChild(p);
-    termEl.scrollTop = termEl.scrollHeight;
-    logIndex = (logIndex + 1) % logs.length;
+  });
+
+  // Continuous terminal stream for mission duration
+  const logInterval = setInterval(() => {
     if (remaining <= 0) {
       clearInterval(logInterval);
       initMission();
       updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
+      return;
     }
+    const cmd = commands[Math.floor(Math.random() * commands.length)];
+    const p = document.createElement('div');
+    p.textContent = cmd;
+    termEl.appendChild(p);
+    termEl.scrollTop = termEl.scrollHeight;
   }, 1500);
 }
 
