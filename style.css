@@ -546,6 +546,12 @@ canvas {
   display: block;
 }
 
+/* ─── PIN ACTIONS ROW TO BOTTOM ─────────────────────────────────── */
+.hud-row--actions {
+  /* absorb all extra space above it */
+  margin-top: auto;
+}
+
 
 /* ─── MISSION TERMINAL STYLING ───────────────────────────────── */
 #mission-timer {
