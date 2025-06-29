@@ -199,7 +199,7 @@ function initMission() {
   mc.innerHTML = `
     <div class="mission-title">${m.title}</div>
     <div class="mission-desc">${m.desc}</div>
-    <div class="mission-start">Start Mission</div>
+    <button class="hud-action mission-start">Start Mission</button>
   `;
   mc.querySelector('.mission-start').addEventListener('click', () => startMission(m));
 }
