@@ -335,3 +335,44 @@ function startMission(mission) {
 
 // Kick off the first mission on load
 document.addEventListener('DOMContentLoaded', initMission);
+
+// ─── SHOP LOGIC ──────────────────────────────────────────────────
+const shopModal        = document.getElementById('shop-modal');
+const shopBtn          = document.getElementById('shopBtn');
+const closeShopBtn     = document.getElementById('closeShopBtn');
+const shopItemsContainer = document.getElementById('shop-items');
+
+const shopItems = [
+  { id: 'timeReducer', name: 'Time Reducer', price: 50, description: 'Finish missions 25% faster.' },
+  { id: 'hsBoost',    name: 'HS Booster',  price: 75, description: '+25 HS for next 5 missions.' }
+];
+
+function renderShopItems() {
+  shopItemsContainer.innerHTML = '';
+  shopItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'shop-item';
+    div.innerHTML = `
+      <h3>${item.name} — ${item.price} PLAI</h3>
+      <p>${item.description}</p>
+      <button class="hud-action buy-btn" data-id="${item.id}">Buy</button>
+    `;
+    shopItemsContainer.appendChild(div);
+  });
+  document.querySelectorAll('.buy-btn').forEach(btn =>
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      console.log('Buy clicked for', id);
+      // TODO: hook up purchase logic
+    })
+  );
+}
+
+shopBtn.addEventListener('click', () => {
+  renderShopItems();
+  shopModal.style.display = 'flex';
+});
+closeShopBtn.addEventListener('click', () => {
+  shopModal.style.display = 'none';
+});
+

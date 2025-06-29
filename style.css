@@ -627,3 +627,34 @@ canvas {
 .hud-action:hover {
   background-color: #0095b0;
 }
+
+/* ─── SHOP MODAL STYLES ───────────────────────────────────────── */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: #000;
+  border: 2px solid #00BDEB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  max-width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+#shop-items .shop-item {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #00BDEB;
+}
+
+#shop-items .shop-item:last-child {
+  border-bottom: none;
+}
