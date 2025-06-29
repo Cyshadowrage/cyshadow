@@ -1,3 +1,24 @@
+// ─── PLAI TOKEN CONFIG ─────────────────────────────────────────────────
+const PLAI_ADDRESS = '0x977EA2DDa60C1FdFfd4b0377b036D3871f2d01a9';
+const PLAI_ABI = [
+  "function balanceOf(address account) view returns (uint256)",
+  "function decimals() view returns (uint8)"
+];
+
+async function fetchPlaiBalance() {
+  if (!connectedWallet) return;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, provider);
+  // PLAI has 6 decimals
+  const raw = await contract.balanceOf(connectedWallet);
+  const decimals = 6;
+  const amount = Number(raw) / Math.pow(10, decimals);
+  // display with up to 6 decimal places
+  document.getElementById('plai-value').textContent =
+    amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: decimals });
+}
+
+
 // Ambient background animation and HUD reveal after entrance
 const commands = [
   'ping nexus_corp -t', 'decrypt --key 0xf3b1c4a9', 'breach --firewall --deep',
@@ -110,7 +131,13 @@ async function connectWallet() {
     document.getElementById('beginProtocolBtn').classList.remove('hidden');
 
     const baseChainId = '0x2105'; // Base Mainnet
-    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: baseChainId }] });
+    await window.ethereum.request({ 
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: baseChainId }] 
+    });
+
+// now that we're on Base and have an address, fetch PLAI balance
+    fetchPlaiBalance();
 
   } catch (err) {
     console.error(err);
