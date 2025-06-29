@@ -531,22 +531,29 @@ canvas {
   display: block;
 }
 
-
-/* ─── MISSION TERMINAL STYLING ───────────────────────────────── */
-#mission-timer {
-  text-align: center;
-  font-family: monospace;
-  font-size: clamp(1rem, 4vw, 1.5rem);
-  margin-bottom: 0.5rem;
-}
-#mission-terminal {
-  flex: 1;
-  background: #000;
-  color: #00BDEB;
-  font-family: monospace;
-  font-size: clamp(0.8rem, 3vw, 1rem);
-  padding: 0.5rem;
-  overflow-y: auto;
-  border: 1px solid #00BDEB;
+/* ─── ACTIONS ROW BUTTON THEME ───────────────────────────── */
+.hud-action {
+  background: transparent;
+  border: 2px solid #00BDEB;
   border-radius: 0.25rem;
+  color: #00BDEB;
+  padding: 0.5rem 1rem;
+  font-family: 'Orbitron', sans-serif;
+  transition: background 0.2s, color 0.2s;
+}
+.hud-action:hover {
+  background: #00BDEB;
+  color: #000;
+}
+
+/* ─── CLI TERMINAL LINE STYLES ───────────────────────────── */
+#mission-terminal .cmd-line {
+  font-weight: bold;
+  color: #00BDEB;
+  text-align: left;
+}
+#mission-terminal .res-line {
+  font-weight: normal;
+  color: #fff;
+  text-align: left;
 }
