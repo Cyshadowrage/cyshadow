@@ -550,3 +550,68 @@ canvas {
   border: 1px solid #00BDEB;
   border-radius: 0.25rem;
 }
+
+/* ─── ACTIONS ROW BUTTON THEME ───────────────────────────── */
+.hud-action {
+  background: transparent;
+  border: 2px solid #00BDEB;
+  border-radius: 0.25rem;
+  color: #00BDEB;
+  padding: 0.5rem 1rem;
+  font-family: 'Orbitron', sans-serif;
+  transition: background 0.2s, color 0.2s;
+  text-transform: uppercase;
+}
+.hud-action:hover {
+  background: #00BDEB;
+  color: #000;
+}
+
+/* ─── MISSION TERMINAL LINE STYLES ───────────────────────── */
+#mission-terminal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+#mission-terminal .cmd-line {
+  font-weight: bold;
+  color: #00BDEB;
+}
+#mission-terminal .res-line {
+  font-weight: normal;
+  color: #fff;
+}
+
+
+/* ─── ACTIONS ROW BUTTON THEME ───────────────────────────── */
+.hud-action {
+  background: transparent;
+  border: 2px solid #00BDEB;
+  border-radius: 0.25rem;
+  color: #00BDEB;
+  padding: 0.5rem 1rem;
+  font-family: 'Orbitron', sans-serif;
+  transition: background 0.2s, color 0.2s;
+  text-transform: uppercase;
+}
+.hud-action:hover {
+  background: #00BDEB;
+  color: #000;
+}
+
+/* ─── MISSION TERMINAL LINE STYLES ───────────────────────── */
+#mission-terminal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+#mission-terminal .cmd-line {
+  font-weight: bold;
+  color: #00BDEB;
+}
+#mission-terminal .res-line {
+  font-weight: normal;
+  color: #fff;
+}
