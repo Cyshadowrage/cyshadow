@@ -236,6 +236,11 @@ canvas {
   color: #fff;
 }
 
+/* ─── REMOVE DIVIDER BETWEEN SHOP & INFO ───────────────────────── */
+.hud-row--actions .hud-cell:first-child {
+  border-right: none !important;
+}
+
 /* Remove right border on last cell in each row (for wallet row it is only one cell) */
 .hud-row--wallet .hud-cell {
   border-right: none;
