@@ -522,15 +522,17 @@ canvas {
   background-color: #000;
 }
 
-
-/* ─── CONSTRAIN MISSION ROW ───────────────────────────────── */
+/* ─── MISSION ROW FLEXIBLE ─────────────────────────────────────── */
 .hud-row--mission {
-  flex: none;
-  height: clamp(180px, 30vh, 250px);
+  /* allow this row to grow and fill space */
+  flex: 1 1 auto;
+  /* keep your previous sizing constraints */
+  min-height: clamp(180px, 30vh, 250px);
   border-bottom: 1px solid #00BDEB;
   overflow: hidden;
   position: relative;
 }
+
 
 .hud-row--mission .hud-cell {
   padding: 0.75rem;
