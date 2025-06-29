@@ -320,9 +320,20 @@ const closeShopBtn     = document.getElementById('closeShopBtn');
 const shopItemsContainer = document.getElementById('shop-items');
 
 const shopItems = [
-  { id: 'timeReducer', name: 'Time Reducer', price: 50, description: 'Finish missions 25% faster.' },
-  { id: 'hsBoost',    name: 'HS Booster',  price: 75, description: '+25 HS for next 5 missions.' }
+  {
+    id: 'chronoShift',
+    name: 'Chrono Shift',
+    price: 10,
+    description: 'Accelerate all missions by 25% for the next 1 hour.'
+  },
+  {
+    id: 'skillSurge',
+    name: 'Skill Surge',
+    price: 10,
+    description: 'Gain +10 HS for the next 1 hour.'
+  }
 ];
+
 
 function renderShopItems() {
   shopItemsContainer.innerHTML = '';
