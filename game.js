@@ -151,14 +151,41 @@ const missionList = [
   { title: 'DNS Spoofing', desc: 'Redirecting domain requests to compromised endpoints.' }
 ];
 
-</div>
+function initMission() {
+  const mc = document.getElementById('mission-control');
+  const m = missionList[Math.floor(Math.random() * missionList.length)];
+  mc.innerHTML = `
+    <div class="mission-title">${m.title}</div>
     <div class="mission-desc">${m.desc}</div>
     <div class="mission-start">Start Mission</div>
   `;
   mc.querySelector('.mission-start').addEventListener('click', startMission);
 }
 
-}, interval);
+function startMission() {
+  const mc = document.getElementById('mission-control');
+  mc.innerHTML = '<canvas id="missionCanvas"></canvas>';
+  // Simple terminal animation
+  const canvas = document.getElementById('missionCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = mc.clientWidth;
+  canvas.height = mc.clientHeight;
+  let elapsed = 0;
+  const interval = 200;
+  const timer = setInterval(() => {
+    const cmd = commands[Math.floor(Math.random() * commands.length)];
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    ctx.font = '16px monospace';
+    ctx.fillStyle = '#00BDEB';
+    ctx.fillText(cmd, x, y);
+    elapsed += interval;
+    if (elapsed >= 60000) {
+      clearInterval(timer);
+      initMission();
+      updateXp( Math.min(100, elapsed / 600), 100);
+    }
+  }, interval);
 }
 
 // Initialize mission on load
@@ -166,7 +193,11 @@ document.addEventListener('DOMContentLoaded', initMission);
 
 
 // Initialize mission UI
-</div>
+function initMission() {
+  const mc = document.getElementById('mission-control');
+  const m = missionList[Math.floor(Math.random() * missionList.length)];
+  mc.innerHTML = `
+    <div class="mission-title">${m.title}</div>
     <div class="mission-desc">${m.desc}</div>
     <div class="mission-start">Start Mission</div>
   `;
@@ -174,7 +205,24 @@ document.addEventListener('DOMContentLoaded', initMission);
 }
 
 // Start mission: setup timer and terminal log
-}, 1000);
+function startMission(mission) {
+  const mc = document.getElementById('mission-control');
+  mc.innerHTML = `
+    <div id="mission-timer">60s</div>
+    <div id="mission-terminal"></div>
+  `;
+  const timerEl = document.getElementById('mission-timer');
+  const termEl = document.getElementById('mission-terminal');
+  let remaining = 60;
+
+  // Countdown timer
+  const timerInterval = setInterval(() => {
+    remaining--;
+    timerEl.textContent = remaining + 's';
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+    }
+  }, 1000);
 
   // Terminal logs related to mission
   const logs = [
@@ -208,73 +256,4 @@ document.addEventListener('DOMContentLoaded', initMission);
 }
 
 // Kick off the first mission on load
-document.addEventListener('DOMContentLoaded', initMission);
-
-// Initialize mission UI
-function initMission() {
-  const mc = document.getElementById('mission-control');
-  const m = missionList[Math.floor(Math.random() * missionList.length)];
-  mc.innerHTML = `
-    <div class="mission-title">${m.title}</div>
-    <div class="mission-desc">${m.desc}</div>
-    <div class="mission-start">Start Mission</div>
-  `;
-  mc.querySelector('.mission-start').addEventListener('click', () => startMission(m));
-}
-
-// Start mission: CLI-style terminal with command-response and countdown
-function startMission(mission) {
-  const mc = document.getElementById('mission-control');
-  mc.innerHTML = `
-    <div id="mission-timer">60s</div>
-    <div id="mission-terminal"></div>
-  `;
-  const timerEl = document.getElementById('mission-timer');
-  const termEl = document.getElementById('mission-terminal');
-  let remaining = 60;
-
-  const timerInterval = setInterval(() => {
-    remaining--;
-    timerEl.textContent = remaining + 's';
-    if (remaining <= 0) clearInterval(timerInterval);
-  }, 1000);
-
-  const entries = [
-    { cmd: `ssh ${mission.title.toLowerCase().replace(/\s+/g, '_')}@target`, res: 'Authentication successful.' },
-    { cmd: `run_payload --mission=${mission.title.toLowerCase().replace(/\s+/g, '_')}`, res: 'Payload executed.' },
-    { cmd: 'probing network...', res: 'Open ports: 22,80,443' },
-    { cmd: 'deploying backdoor...', res: 'Backdoor installed.' },
-    { cmd: 'extracting data...', res: 'Data transfer: 24MB/s' },
-    { cmd: 'elevate_privileges', res: 'Root access granted.' },
-    { cmd: 'mask_traffic --on', res: 'Traffic masked.' },
-    { cmd: 'log_activity --export', res: 'Logs saved to /tmp/logs.txt' },
-    { cmd: 'disconnect', res: 'Session terminated.' }
-  ];
-  let index = 0;
-  const maxLines = 6;
-
-  const logInt = setInterval(() => {
-    if (remaining <= 0) {
-      clearInterval(logInt);
-      initMission();
-      updateXp(Math.min(100,(60-remaining)/60*100),100);
-      return;
-    }
-    const cmdDiv = document.createElement('div');
-    cmdDiv.className = 'cmd-line';
-    cmdDiv.textContent = entries[index].cmd;
-    termEl.appendChild(cmdDiv);
-    const resDiv = document.createElement('div');
-    resDiv.className = 'res-line';
-    resDiv.textContent = entries[index].res;
-    termEl.appendChild(resDiv);
-    while (termEl.children.length > maxLines*2) {
-      termEl.removeChild(termEl.firstChild);
-    }
-    termEl.scrollTop = termEl.scrollHeight;
-    index = (index + 1) % entries.length;
-  }, 2000);
-}
-
-// Kick off first mission
 document.addEventListener('DOMContentLoaded', initMission);
