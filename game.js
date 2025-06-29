@@ -1,3 +1,5 @@
+const TREASURY_ADDRESS = '0xb7fe8a3f08fe96104c2a526463ef1879edfe82a7';
+
 // ─── PLAYER ENERGY MANAGEMENT ────────────────────────────────────
 // Start with 1000 energy
 let energy = 1000;
@@ -281,8 +283,23 @@ function initMission() {
 }
 
 // Start mission: setup timer and terminal log
-function startMission(mission) {
-  // Deduct 5 energy for this mission run
+// ─── Start mission: require HS = 1 (pay PLAI if HS == 0) ─────────────────
+async function startMission(mission) {
+  const hsEl = document.getElementById('hs-value-2');
+  let currentHs = parseInt(hsEl.textContent, 10);
+
+  if (currentHs === 0) {
+    // unlock first HS by paying PLAI (6-decimal ERC20)
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer   = provider.getSigner();
+    const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
+    const unlockPrice = ethers.utils.parseUnits("5", 6); // set your PLAI cost
+                    // Payment Address
+    await token.transfer(TREASURY_ADDRESS, unlockPrice);
+    // on success, bump HS to 1 in UI
+    hsEl.textContent = "1";
+    currentHs = 1;
+  }  // Deduct 5 energy for this mission run
   updateEnergy(5);
   const mc = document.getElementById('mission-control');
   mc.innerHTML = `
