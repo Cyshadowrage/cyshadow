@@ -1,4 +1,5 @@
-const TREASURY_ADDRESS = '0xb7fe8a3f08fe96104c2a526463ef1879edfe82a7';
+const TREASURY_ADDRESS = 
+'0xb7fe8a3f08fe96104c2a526463ef1879edfe82a7';
 
 // ─── PLAYER ENERGY MANAGEMENT ────────────────────────────────────
 // Start with 1000 energy
@@ -199,41 +200,41 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => {
 });
 
 // --- Unlock HS modal handlers ---
-const unlockModal       = document.getElementById('unlock-modal');
-const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
-const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
+document.addEventListener('DOMContentLoaded', () => {
+  const unlockModal      = document.getElementById('unlock-modal');
+  const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
+  const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
 
-unlockConfirmBtn.addEventListener('click', async () => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer   = provider.getSigner();
-  const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
-  const price    = ethers.utils.parseUnits("5", 6);
-
-  try {
-    // 1) check on-chain balance
-    const rawBal = await token.balanceOf(connectedWallet);
-    if (rawBal.lt(price)) {
-      alert("Insufficient PLAI balance. You need at least 5 PLAI.");
+  unlockConfirmBtn.addEventListener('click', async () => {
+    console.log('Unlock button clicked');   // debug line
+    if (!connectedWallet) {
+      alert('Please connect your wallet first.');
       return;
     }
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer   = provider.getSigner();
+    const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
+    const price    = ethers.utils.parseUnits('5', 6);
 
-    // 2) send the transfer and wait for confirmation
-    const tx = await token.transfer(TREASURY_ADDRESS, price);
-    await tx.wait();
+    try {
+      const rawBal = await token.balanceOf(connectedWallet);
+      if (rawBal.lt(price)) {
+        alert('Insufficient PLAI. You need at least 5 PLAI to unlock.');
+        return;
+      }
+      const tx = await token.transfer(TREASURY_ADDRESS, price);
+      await tx.wait();
+      document.getElementById('hs-value-2').textContent = '1';
+      unlockModal.style.display = 'none';
+    } catch (err) {
+      console.error(err);
+      alert('Purchase failed or was rejected. Please try again.');
+    }
+  });
 
-    // 3) on success, give HS and close modal
-    document.getElementById('hs-value-2').textContent = "1";
+  unlockCancelBtn.addEventListener('click', () => {
     unlockModal.style.display = 'none';
-  } catch (err) {
-    console.error(err);
-    alert("Purchase failed or was rejected. Please try again.");
-  }
-});
-
-
-unlockCancelBtn.addEventListener('click', () => {
-  // simply hide the modal; user can’t start missions until HS>0
-  unlockModal.style.display = 'none';
+  });
 });
 
 
@@ -273,46 +274,6 @@ const missionList = [
   { title: 'Malware Deployment', desc: 'Installing stealth malware to exfiltrate data.' },
   { title: 'DNS Spoofing', desc: 'Redirecting domain requests to compromised endpoints.' }
 ];
-
-function initMission() {
-  const mc = document.getElementById('mission-control');
-  const m = missionList[Math.floor(Math.random() * missionList.length)];
-  mc.innerHTML = `
-    <div class="mission-title">${m.title}</div>
-    <div class="mission-desc">${m.desc}</div>
-    <button class="hud-action mission-start">Start Mission</button>
-  `;
-  mc.querySelector('.mission-start').addEventListener('click', startMission);
-}
-
-function startMission() {
-  const mc = document.getElementById('mission-control');
-  mc.innerHTML = '<canvas id="missionCanvas"></canvas>';
-  // Simple terminal animation
-  const canvas = document.getElementById('missionCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = mc.clientWidth;
-  canvas.height = mc.clientHeight;
-  let elapsed = 0;
-  const interval = 200;
-  const timer = setInterval(() => {
-    const cmd = commands[Math.floor(Math.random() * commands.length)];
-    const x = Math.random() * canvas.width;
-    const y = Math.random() * canvas.height;
-    ctx.font = '16px monospace';
-    ctx.fillStyle = '#00BDEB';
-    ctx.fillText(cmd, x, y);
-    elapsed += interval;
-    if (elapsed >= 60000) {
-      clearInterval(timer);
-      initMission();
-      updateXp( Math.min(100, elapsed / 600), 100);
-    }
-  }, interval);
-}
-
-// Initialize mission on load
-document.addEventListener('DOMContentLoaded', initMission);
 
 
 // Initialize mission UI
