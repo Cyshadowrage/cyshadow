@@ -192,68 +192,28 @@ function startMission() {
 document.addEventListener('DOMContentLoaded', initMission);
 
 
-// Initialize mission UI
-function initMission() {
-  const mc = document.getElementById('mission-control');
-  const m = missionList[Math.floor(Math.random() * missionList.length)];
-  mc.innerHTML = `
-    <div class="mission-title">${m.title}</div>
-    <div class="mission-desc">${m.desc}</div>
-    <div class="mission-start">Start Mission</div>
-  `;
-  mc.querySelector('.mission-start').addEventListener('click', () => startMission(m));
-}
-
-// Start mission: setup timer and terminal log
-function startMission(mission) {
-  const mc = document.getElementById('mission-control');
-  mc.innerHTML = `
-    <div id="mission-timer">60s</div>
-    <div id="mission-terminal"></div>
-  `;
-  const timerEl = document.getElementById('mission-timer');
-  const termEl = document.getElementById('mission-terminal');
-  let remaining = 60;
-
-  // Countdown timer
-  const timerInterval = setInterval(() => {
-    remaining--;
-    timerEl.textContent = remaining + 's';
-    if (remaining <= 0) {
-      clearInterval(timerInterval);
-    }
-  }, 1000);
-
-  // Terminal logs related to mission
-  const logs = [
-    `Connecting to ${mission.title.toLowerCase().replace(/ /g, '_')}...`,
-    'Authentication successful.',
-    `${mission.title} sequence initiated.`,
-    'Bypassing security protocols...',
-    'Elevating privileges...',
-    'Injecting payload...',
-    'Monitoring system response...',
-    'Extracting sensitive data...',
-    'Logging activity...',
-    'Terminating session.'
-  ];
-  let logIndex = 0;
-
-  // Log interval
-  const logInterval = setInterval(() => {
-    const line = logs[logIndex];
-    const p = document.createElement('div');
-    p.textContent = line;
-    termEl.appendChild(p);
-    termEl.scrollTop = termEl.scrollHeight;
-    logIndex = (logIndex + 1) % logs.length;
-    if (remaining <= 0) {
-      clearInterval(logInterval);
-      initMission();
-      updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
-    }
-  }, 1500);
-}
-
-// Kick off the first mission on load
-document.addEventListener('DOMContentLoaded', initMission);
+// ─── ACTIONS ROW FUNCTIONALITY ───────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      document.getElementById('gameScreen').classList.add('hidden');
+      document.getElementById('entranceScreen').classList.remove('hidden');
+      document.getElementById('hud-wallet').textContent = 'Wallet: ';
+      connectedWallet = null;
+      document.getElementById('walletAddress').textContent = 'Wallet: Not connected';
+    });
+  }
+  const shopBtn = document.getElementById('shopBtn');
+  if (shopBtn) {
+    shopBtn.addEventListener('click', () => {
+      alert('Shop is under development.');
+    });
+  }
+  const infoBtn = document.getElementById('infoBtn');
+  if (infoBtn) {
+    infoBtn.addEventListener('click', () => {
+      alert('Game info coming soon.');
+    });
+  }
+});
