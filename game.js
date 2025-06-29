@@ -355,15 +355,19 @@ closeShopBtn.addEventListener('click', () => {
 
 // ─── UNLOCK HS MODAL HANDLERS (simple bind) ───────────────────────
 const unlockModal      = document.getElementById('unlock-modal');
+const unlockErrorEl    = document.getElementById('unlock-error');
 const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
 const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
 
 unlockConfirmBtn.addEventListener('click', async () => {
-  console.log('Unlock button clicked');   // make sure this appears in console
+  console.log('Unlock button clicked');
+  unlockErrorEl.textContent = '';   // clear previous
+
   if (!connectedWallet) {
-    alert('Please connect your wallet first.');
+    unlockErrorEl.textContent = 'Please connect your wallet first.';
     return;
   }
+
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer   = provider.getSigner();
   const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
@@ -372,21 +376,23 @@ unlockConfirmBtn.addEventListener('click', async () => {
   try {
     const rawBal = await token.balanceOf(connectedWallet);
     if (rawBal.lt(price)) {
-      alert('Insufficient PLAI. You need at least 5 PLAI to unlock.');
+      unlockErrorEl.textContent = 'Insufficient PLAI. You need at least 5 PLAI.';
       return;
     }
     const tx = await token.transfer(TREASURY_ADDRESS, price);
     await tx.wait();
+
+    // on success
     document.getElementById('hs-value-2').textContent = '1';
     unlockModal.style.display = 'none';
   } catch (err) {
     console.error(err);
-    alert('Purchase failed or was rejected. Please try again.');
+    unlockErrorEl.textContent = 'Purchase failed or was rejected. Please try again.';
   }
 });
 
 unlockCancelBtn.addEventListener('click', () => {
+  unlockErrorEl.textContent = '';
   unlockModal.style.display = 'none';
 });
-
 

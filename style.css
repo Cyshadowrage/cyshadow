@@ -658,3 +658,12 @@ canvas {
 #shop-items .shop-item:last-child {
   border-bottom: none;
 }
+
+/* ─── UNLOCK HS ERROR TEXT ─────────────────────────────────────── */
+.error-text {
+  color: #FF4136;             /* a warning‐red */
+  margin: 0.5rem 0;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  text-align: center;
+  min-height: 1.2em;          /* reserve space so layout doesn’t jump */
+}
