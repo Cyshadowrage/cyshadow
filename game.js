@@ -204,22 +204,32 @@ const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
 const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
 
 unlockConfirmBtn.addEventListener('click', async () => {
-  // attempt on-chain payment of 5 PLAI
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer   = provider.getSigner();
   const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
   const price    = ethers.utils.parseUnits("5", 6);
 
   try {
-    await token.transfer(TREASURY_ADDRESS, price);
-    // on success, set HS to 1 and close modal
+    // 1) check on-chain balance
+    const rawBal = await token.balanceOf(connectedWallet);
+    if (rawBal.lt(price)) {
+      alert("Insufficient PLAI balance. You need at least 5 PLAI.");
+      return;
+    }
+
+    // 2) send the transfer and wait for confirmation
+    const tx = await token.transfer(TREASURY_ADDRESS, price);
+    await tx.wait();
+
+    // 3) on success, give HS and close modal
     document.getElementById('hs-value-2').textContent = "1";
     unlockModal.style.display = 'none';
   } catch (err) {
     console.error(err);
-    alert("Purchase failed. Make sure you have enough PLAI and try again.");
+    alert("Purchase failed or was rejected. Please try again.");
   }
 });
+
 
 unlockCancelBtn.addEventListener('click', () => {
   // simply hide the modal; user can’t start missions until HS>0
@@ -319,8 +329,15 @@ function initMission() {
 
 // Start mission: setup timer and terminal log
 async function startMission(mission) {
+  // ─── BLOCK IF NO HS ─────────────────────────────────────────────
+  const hsVal = parseInt(document.getElementById('hs-value-2').textContent, 10);
+  if (hsVal === 0) {
+    // show the unlock popup again
+    document.getElementById('unlock-modal').style.display = 'flex';
+    return;
+  }
 
-    // Deduct 5 energy for this mission run
+  // now they have HS ≥1, go ahead and deduct energy
   updateEnergy(5);
   const mc = document.getElementById('mission-control');
   mc.innerHTML = `
