@@ -289,17 +289,28 @@ async function startMission(mission) {
   let currentHs = parseInt(hsEl.textContent, 10);
 
   if (currentHs === 0) {
-    // unlock first HS by paying PLAI (6-decimal ERC20)
+    // prompt the user
+    const wantsPurchase = confirm(
+      "You need to pay 5 PLAI to unlock your first HS and start missions.\n\n" +
+      "Click OK to purchase now or Cancel to go back."
+    );
+    if (!wantsPurchase) {
+      // user cancelled—don’t start the mission
+      return;
+    }
+    // user agreed—perform on-chain payment
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer   = provider.getSigner();
     const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
-    const unlockPrice = ethers.utils.parseUnits("5", 6); // set your PLAI cost
-                    // Payment Address
+    const unlockPrice = ethers.utils.parseUnits("5", 6);
     await token.transfer(TREASURY_ADDRESS, unlockPrice);
-    // on success, bump HS to 1 in UI
+    // update HS to 1
     hsEl.textContent = "1";
     currentHs = 1;
-  }  // Deduct 5 energy for this mission run
+  }
+ 
+
+    // Deduct 5 energy for this mission run
   updateEnergy(5);
   const mc = document.getElementById('mission-control');
   mc.innerHTML = `
