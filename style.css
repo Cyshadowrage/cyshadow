@@ -550,3 +550,22 @@ canvas {
   border: 1px solid #00BDEB;
   border-radius: 0.25rem;
 }
+
+/* ─── HUD ACTION BUTTONS ─────────────────────────────────────────── */
+.hud-action {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #00BDEB;
+  color: #000;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hud-action:hover {
+  background-color: #0095b0;
+}
