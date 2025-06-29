@@ -531,32 +531,27 @@ canvas {
   display: block;
 }
 
-/* ─── ACTIONS ROW ───────────────────────────────────────── */
-.hud-row--actions {
-  display: flex;
-  border-bottom: 1px solid #00BDEB;
+
+/* ─── MISSION TERMINAL STYLING ───────────────────────────────── */
+#mission-timer {
+  text-align: center;
+  font-family: monospace;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  margin-bottom: 0.5rem;
 }
-.hud-row--actions .hud-cell {
+#mission-terminal {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.hud-action {
-  padding: 0.75rem 1.25rem;
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
-  background: transparent;
-  border: 2px solid #00BDEB;
-  border-radius: 0.5rem;
+  background: #000;
   color: #00BDEB;
-  cursor: pointer;
+  font-family: monospace;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  padding: 0.5rem;
+  overflow-y: auto;
+  border: 1px solid #00BDEB;
+  border-radius: 0.25rem;
 }
 
-/* ─── ACTIONS ROW ───────────────────────────────────────── */
-.hud-row--actions {
-  display: flex;
-  border-bottom: 1px solid #00BDEB;
-}
+/* ─── ACTIONS ROW: Logout, Shop, Info ───────────────────────── */
 .hud-row--actions .hud-cell {
   flex: 1;
   display: flex;
@@ -571,4 +566,8 @@ canvas {
   border-radius: 0.5rem;
   color: #00BDEB;
   cursor: pointer;
+}
+.hud-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
