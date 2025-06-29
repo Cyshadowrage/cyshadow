@@ -151,11 +151,63 @@ const missionList = [
   { title: 'DNS Spoofing', desc: 'Redirecting domain requests to compromised endpoints.' }
 ];
 
+</div>
+    <div class="mission-desc">${m.desc}</div>
+    <div class="mission-start">Start Mission</div>
+  `;
+  mc.querySelector('.mission-start').addEventListener('click', startMission);
+}
 
-  }, interval);
+}, interval);
 }
 
 // Initialize mission on load
+document.addEventListener('DOMContentLoaded', initMission);
+
+
+// Initialize mission UI
+</div>
+    <div class="mission-desc">${m.desc}</div>
+    <div class="mission-start">Start Mission</div>
+  `;
+  mc.querySelector('.mission-start').addEventListener('click', () => startMission(m));
+}
+
+// Start mission: setup timer and terminal log
+}, 1000);
+
+  // Terminal logs related to mission
+  const logs = [
+    `Connecting to ${mission.title.toLowerCase().replace(/ /g, '_')}...`,
+    'Authentication successful.',
+    `${mission.title} sequence initiated.`,
+    'Bypassing security protocols...',
+    'Elevating privileges...',
+    'Injecting payload...',
+    'Monitoring system response...',
+    'Extracting sensitive data...',
+    'Logging activity...',
+    'Terminating session.'
+  ];
+  let logIndex = 0;
+
+  // Log interval
+  const logInterval = setInterval(() => {
+    const line = logs[logIndex];
+    const p = document.createElement('div');
+    p.textContent = line;
+    termEl.appendChild(p);
+    termEl.scrollTop = termEl.scrollHeight;
+    logIndex = (logIndex + 1) % logs.length;
+    if (remaining <= 0) {
+      clearInterval(logInterval);
+      initMission();
+      updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
+    }
+  }, 1500);
+}
+
+// Kick off the first mission on load
 document.addEventListener('DOMContentLoaded', initMission);
 
 // Initialize mission UI
@@ -170,7 +222,7 @@ function initMission() {
   mc.querySelector('.mission-start').addEventListener('click', () => startMission(m));
 }
 
-// Start mission: CLI-style with command-response pairs
+// Start mission: CLI-style terminal with command-response and countdown
 function startMission(mission) {
   const mc = document.getElementById('mission-control');
   mc.innerHTML = `
@@ -181,7 +233,6 @@ function startMission(mission) {
   const termEl = document.getElementById('mission-terminal');
   let remaining = 60;
 
-  // Countdown
   const timerInterval = setInterval(() => {
     remaining--;
     timerEl.textContent = remaining + 's';
@@ -209,18 +260,15 @@ function startMission(mission) {
       updateXp(Math.min(100,(60-remaining)/60*100),100);
       return;
     }
-    // add cmd
     const cmdDiv = document.createElement('div');
     cmdDiv.className = 'cmd-line';
     cmdDiv.textContent = entries[index].cmd;
     termEl.appendChild(cmdDiv);
-    // add response
     const resDiv = document.createElement('div');
     resDiv.className = 'res-line';
     resDiv.textContent = entries[index].res;
     termEl.appendChild(resDiv);
-    // cap lines
-    while(termEl.children.length > maxLines*2) {
+    while (termEl.children.length > maxLines*2) {
       termEl.removeChild(termEl.firstChild);
     }
     termEl.scrollTop = termEl.scrollHeight;
@@ -228,5 +276,5 @@ function startMission(mission) {
   }, 2000);
 }
 
-// Start first mission
+// Kick off first mission
 document.addEventListener('DOMContentLoaded', initMission);
