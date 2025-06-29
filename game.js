@@ -358,7 +358,7 @@ document.querySelectorAll('.buy-btn').forEach(btn =>
     const item = shopItems.find(i => i.id === id);
 
     if (!connectedWallet) {
-      alert('Please connect your wallet first.');
+      shopErrorEl.textContent = 'Please connect your wallet first.';
       return;
     }
 
@@ -369,8 +369,11 @@ document.querySelectorAll('.buy-btn').forEach(btn =>
 
     try {
       const bal = await token.balanceOf(connectedWallet);
+
+      // ← ← ← HERE is your “Insufficient PLAI” check
       if (bal.lt(price)) {
-        alert(`Insufficient PLAI. You need ${item.price} PLAI to buy ${item.name}.`);
+        shopErrorEl.textContent =
+          `Insufficient PLAI. You need ${item.price} PLAI to buy ${item.name}.`;
         return;
       }
 
@@ -385,11 +388,13 @@ document.querySelectorAll('.buy-btn').forEach(btn =>
         skillSurgeExpiry = now + 3600 * 1000;
       }
 
-      alert(`${item.name} purchased! Active for 1 hour.`);
-      shopModal.style.display = 'none';
+      // on success, clear error & close
+      shopErrorEl.textContent = '';
+      shopModal.style.display  = 'none';
+
     } catch (err) {
       console.error(err);
-      alert('Purchase failed. Please try again.');
+      shopErrorEl.textContent = 'Purchase failed. Please try again.';
     }
   })
 );
@@ -397,9 +402,11 @@ document.querySelectorAll('.buy-btn').forEach(btn =>
 }
 
 shopBtn.addEventListener('click', () => {
+  shopErrorEl.textContent = '';      // clear any old error
   renderShopItems();
   shopModal.style.display = 'flex';
 });
+
 closeShopBtn.addEventListener('click', () => {
   shopModal.style.display = 'none';
 });
@@ -409,6 +416,7 @@ const unlockModal      = document.getElementById('unlock-modal');
 const unlockErrorEl    = document.getElementById('unlock-error');
 const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
 const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
+const shopErrorEl = document.getElementById('shop-error');
 
 unlockConfirmBtn.addEventListener('click', async () => {
   console.log('Unlock button clicked');
