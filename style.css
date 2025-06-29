@@ -4,7 +4,7 @@ body {
   padding: 0;
   font-family: 'Orbitron', sans-serif;
   background-color: #000;
-  color: #00ffff;
+  color: #00BDEB;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -233,7 +233,7 @@ canvas {
   padding: 0.75rem;
   border-right: 1px solid #00BDEB;
   text-align: center;
-  color: #fff;
+  color: #00BDEB;
 }
 
 /* ─── REMOVE DIVIDER BETWEEN SHOP & INFO ───────────────────────── */
@@ -409,7 +409,7 @@ canvas {
   z-index: 2;
   display: block;
   text-align: center;
-  color: #fff;
+  color: #00BDEB;
   font-size: clamp(0.8rem, 3vw, 1rem);
   /* ensure centered vertically */
   margin: 0;
@@ -666,4 +666,9 @@ canvas {
   font-size: clamp(0.8rem, 3vw, 1rem);
   text-align: center;
   min-height: 1.2em;          /* reserve space so layout doesn’t jump */
+}
+
+/* make all your modal headings, item titles, and descriptions teal */
+.modal-content {
+  color: #00BDEB;
 }
