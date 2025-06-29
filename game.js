@@ -234,20 +234,25 @@ function startMission(mission) {
     termEl.appendChild(p);
   });
 
-  // Continuous terminal stream for mission duration
+// scroll effect on terminal screen
   const logInterval = setInterval(() => {
-    if (remaining <= 0) {
-      clearInterval(logInterval);
-      initMission();
-      updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
-      return;
-    }
-    const cmd = commands[Math.floor(Math.random() * commands.length)];
-    const p = document.createElement('div');
-    p.textContent = cmd;
-    termEl.appendChild(p);
-    termEl.scrollTop = termEl.scrollHeight;
-  }, 1500);
+  if (remaining <= 0) {
+    clearInterval(logInterval);
+    initMission();
+    updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
+    return;
+  }
+  const cmd = commands[Math.floor(Math.random() * commands.length)];
+  const p = document.createElement('div');
+  p.textContent = cmd;
+  termEl.appendChild(p);
+  termEl.scrollTop = termEl.scrollHeight;
+
+  // ─── SCROLL EFFECT: DROP TOP LINE WHEN OVERFLOW ─────────────────
+  if (termEl.scrollHeight > termEl.clientHeight) {
+    termEl.removeChild(termEl.firstChild);
+  }
+}, 1500);
 }
 
 // Kick off the first mission on load
