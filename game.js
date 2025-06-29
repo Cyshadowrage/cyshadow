@@ -347,13 +347,53 @@ function renderShopItems() {
     `;
     shopItemsContainer.appendChild(div);
   });
-  document.querySelectorAll('.buy-btn').forEach(btn =>
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      console.log('Buy clicked for', id);
-      // TODO: hook up purchase logic
-    })
-  );
+// ─── BOOSTER EXPIRY TRACKERS ─────────────────────────────────────
+let chronoShiftExpiry = 0;
+let skillSurgeExpiry  = 0;
+
+// …inside renderShopItems()…  
+document.querySelectorAll('.buy-btn').forEach(btn =>
+  btn.addEventListener('click', async () => {
+    const id   = btn.dataset.id;
+    const item = shopItems.find(i => i.id === id);
+
+    if (!connectedWallet) {
+      alert('Please connect your wallet first.');
+      return;
+    }
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer   = provider.getSigner();
+    const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
+    const price    = ethers.utils.parseUnits(item.price.toString(), 6);
+
+    try {
+      const bal = await token.balanceOf(connectedWallet);
+      if (bal.lt(price)) {
+        alert(`Insufficient PLAI. You need ${item.price} PLAI to buy ${item.name}.`);
+        return;
+      }
+
+      const tx = await token.transfer(TREASURY_ADDRESS, price);
+      await tx.wait();
+
+      // record a 1-hour window
+      const now = Date.now();
+      if (id === 'chronoShift') {
+        chronoShiftExpiry = now + 3600 * 1000;
+      } else {
+        skillSurgeExpiry = now + 3600 * 1000;
+      }
+
+      alert(`${item.name} purchased! Active for 1 hour.`);
+      shopModal.style.display = 'none';
+    } catch (err) {
+      console.error(err);
+      alert('Purchase failed. Please try again.');
+    }
+  })
+);
+
 }
 
 shopBtn.addEventListener('click', () => {
