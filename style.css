@@ -253,6 +253,21 @@ canvas {
   .hud-cell:last-child {
     border-bottom: none;
   }
+
+  /* ─── KEEP ACTION BUTTONS HORIZONTAL ON MOBILE ───────────────── */
+  .hud-row--actions {
+    flex-direction: row !important;
+  }
+  .hud-row--actions .hud-cell {
+    /* restore right borders between cells */
+    border-bottom: none !important;
+    border-right: 1px solid #00BDEB !important;
+  }
+  .hud-row--actions .hud-cell:last-child {
+    /* no extra border on the last cell */
+    border-right: none !important;
+  }
+
 }
 
 /* ─── RESPONSIVE HUD ────────────────────────── */
