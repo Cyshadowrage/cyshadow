@@ -1,4 +1,36 @@
-// ─── PLAI TOKEN CONFIG ─────────────────────────────────────────────────
+// ─── PLAYER ENERGY MANAGEMENT ────────────────────────────────────
+// Start with 1000 energy
+let energy = 1000;
+
+/**
+ * Deduct `amount` from energy (not dropping below 0) and update UI
+ * @param {number} amount
+ */
+function updateEnergy(amount) {
+  energy = Math.max(0, energy - amount);
+  document.getElementById('energy-value-2').textContent = energy;
+}
+
+// Schedule a daily reset of energy to 1000 at 00:00 UTC
+(function scheduleDailyEnergyReset() {
+  const now = new Date();
+  const nextUTCmidnight = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1, 0, 0, 0
+  ));
+  const msUntilReset = nextUTCmidnight.getTime() - now.getTime();
+  setTimeout(() => {
+    energy = 1000;
+    document.getElementById('energy-value-2').textContent = energy;
+    scheduleDailyEnergyReset();
+  }, msUntilReset);
+})();
+
+
+
+// ─── PLAI TOKEN CONFIG 
+
 const PLAI_ADDRESS = '0x977EA2DDa60C1FdFfd4b0377b036D3871f2d01a9';
 const PLAI_ABI = [
   "function balanceOf(address account) view returns (uint256)",
@@ -250,6 +282,8 @@ function initMission() {
 
 // Start mission: setup timer and terminal log
 function startMission(mission) {
+  // Deduct 5 energy for this mission run
+  updateEnergy(5);
   const mc = document.getElementById('mission-control');
   mc.innerHTML = `
     <div id="mission-timer">60s</div>
