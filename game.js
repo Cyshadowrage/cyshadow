@@ -131,16 +131,33 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => {
 });
 
 
-// Update XP pill fill and text
+// Update XP pill, and level up rank at 100%
 function updateXp(currentPercent, maxPercent) {
   const xpFill = document.getElementById('xp-fill');
   const xpText = document.getElementById('xp-text');
   if (xpFill && xpText) {
-    const percent = Math.round((currentPercent / maxPercent) * 100);
+    let percent = Math.round((currentPercent / maxPercent) * 100);
+
+    // Level up when full
+    if (percent >= 100) {
+      const rankEl = document.getElementById('hud-rank');
+      if (rankEl) {
+        // parse “Rank: N” and increment
+        const match = rankEl.textContent.match(/Rank:\s*(\d+)/);
+        if (match) {
+          const newRank = parseInt(match[1], 10) + 1;
+          rankEl.textContent = `Rank: ${newRank}`;
+        }
+      }
+      // reset XP bar
+      percent = 0;
+    }
+
     xpFill.style.width = percent + '%';
     xpText.textContent = percent + '%/' + maxPercent + '%';
   }
 }
+
 
 // Mission control setup
 const missionList = [
