@@ -550,24 +550,3 @@ canvas {
   border: 1px solid #00BDEB;
   border-radius: 0.25rem;
 }
-
-/* ─── ACTIONS ROW: Logout, Shop, Info ───────────────────────── */
-.hud-row--actions .hud-cell {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.hud-action {
-  padding: 0.75rem 1.25rem;
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
-  background: transparent;
-  border: 2px solid #00BDEB;
-  border-radius: 0.5rem;
-  color: #00BDEB;
-  cursor: pointer;
-}
-.hud-action:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
