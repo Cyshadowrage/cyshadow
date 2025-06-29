@@ -181,6 +181,7 @@ async function connectWallet() {
 
 document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
 
+// When “BEGIN PROTOCOL” is clicked, show game HUD and check HS
 document.getElementById('beginProtocolBtn').addEventListener('click', () => {
   updateXp(0, 100);
   if (!connectedWallet) {
@@ -189,6 +190,40 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => {
   }
   document.getElementById('entranceScreen').classList.add('hidden');
   document.getElementById('gameScreen').classList.remove('hidden');
+
+  // If HS is still 0, prompt with our HUD modal
+  const hsVal = parseInt(document.getElementById('hs-value-2').textContent, 10);
+  if (hsVal === 0) {
+    document.getElementById('unlock-modal').style.display = 'flex';
+  }
+});
+
+// --- Unlock HS modal handlers ---
+const unlockModal       = document.getElementById('unlock-modal');
+const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
+const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
+
+unlockConfirmBtn.addEventListener('click', async () => {
+  // attempt on-chain payment of 5 PLAI
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer   = provider.getSigner();
+  const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
+  const price    = ethers.utils.parseUnits("5", 6);
+
+  try {
+    await token.transfer(TREASURY_ADDRESS, price);
+    // on success, set HS to 1 and close modal
+    document.getElementById('hs-value-2').textContent = "1";
+    unlockModal.style.display = 'none';
+  } catch (err) {
+    console.error(err);
+    alert("Purchase failed. Make sure you have enough PLAI and try again.");
+  }
+});
+
+unlockCancelBtn.addEventListener('click', () => {
+  // simply hide the modal; user can’t start missions until HS>0
+  unlockModal.style.display = 'none';
 });
 
 
@@ -283,32 +318,7 @@ function initMission() {
 }
 
 // Start mission: setup timer and terminal log
-// ─── Start mission: require HS = 1 (pay PLAI if HS == 0) ─────────────────
 async function startMission(mission) {
-  const hsEl = document.getElementById('hs-value-2');
-  let currentHs = parseInt(hsEl.textContent, 10);
-
-  if (currentHs === 0) {
-    // prompt the user
-    const wantsPurchase = confirm(
-      "You need to pay 5 PLAI to unlock your first HS and start missions.\n\n" +
-      "Click OK to purchase now or Cancel to go back."
-    );
-    if (!wantsPurchase) {
-      // user cancelled—don’t start the mission
-      return;
-    }
-    // user agreed—perform on-chain payment
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer   = provider.getSigner();
-    const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
-    const unlockPrice = ethers.utils.parseUnits("5", 6);
-    await token.transfer(TREASURY_ADDRESS, unlockPrice);
-    // update HS to 1
-    hsEl.textContent = "1";
-    currentHs = 1;
-  }
- 
 
     // Deduct 5 energy for this mission run
   updateEnergy(5);
