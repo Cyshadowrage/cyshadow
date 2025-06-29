@@ -199,32 +199,35 @@ document.getElementById('beginProtocolBtn').addEventListener('click', () => {
   }
 });
 
-// Update XP pill, and level up rank at 100%
-function updateXp(currentPercent, maxPercent) {
+function updateXp(xpDelta) {
   const xpFill = document.getElementById('xp-fill');
   const xpText = document.getElementById('xp-text');
-  if (xpFill && xpText) {
-    let percent = Math.round((currentPercent / maxPercent) * 100);
+  if (!xpFill || !xpText) return;
 
-    // Level up when full
-    if (percent >= 100) {
-      const rankEl = document.getElementById('hud-rank');
-      if (rankEl) {
-        // parse “Rank: N” and increment
-        const match = rankEl.textContent.match(/Rank:\s*(\d+)/);
-        if (match) {
-          const newRank = parseInt(match[1], 10) + 1;
-          rankEl.textContent = `Rank: ${newRank}`;
-        }
+  // 1) Read current percent (strip off the “%”)
+  let current = parseFloat(xpFill.style.width) || 0;
+  // 2) Add the new XP
+  let next    = current + xpDelta;
+
+  // 3) Level up when we cross 100%
+  if (next >= 100) {
+    // bump the rank
+    const rankEl = document.getElementById('hud-rank');
+    if (rankEl) {
+      const m = rankEl.textContent.match(/Rank:\s*(\d+)/);
+      if (m) {
+        rankEl.textContent = `Rank: ${parseInt(m[1],10) + 1}`;
       }
-      // reset XP bar
-      percent = 0;
     }
-
-    xpFill.style.width = percent + '%';
-    xpText.textContent = percent + '%/' + maxPercent + '%';
+    // carry over any overflow
+    next = next - 100;
   }
+
+  // 4) Update the bar & text
+  xpFill.style.width = next + '%';
+  xpText.textContent = Math.round(next) + '%/100%';
 }
+
 
 
 // Mission control setup
@@ -291,12 +294,24 @@ async function startMission(mission) {
 
 // scroll effect on terminal screen
   const logInterval = setInterval(() => {
-  if (remaining <= 0) {
-    clearInterval(logInterval);
-    initMission();
-    updateXp(Math.min(100, (60 - remaining) / 60 * 100), 100);
-    return;
-  }
+
+if (remaining <= 0) {
+  clearInterval(logInterval);
+  initMission();
+
+  // ─── MISSION COMPLETE: AWARD HS-BASED XP ─────────────────────────
+  const now    = Date.now();
+  let baseHs   = parseInt(document.getElementById('hs-value-2').textContent, 10);
+  // include active booster
+  if (now < skillSurgeExpiry) baseHs += 10;
+  const xpPerHs = 0.5;               // % XP per HS
+  const xpDelta = baseHs * xpPerHs; // total % to add
+  updateXp(xpDelta);
+
+  return;
+}
+
+
   const cmd = commands[Math.floor(Math.random() * commands.length)];
   const p = document.createElement('div');
   p.textContent = cmd;
