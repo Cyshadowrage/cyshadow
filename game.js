@@ -353,41 +353,40 @@ closeShopBtn.addEventListener('click', () => {
   shopModal.style.display = 'none';
 });
 
-// ─── UNLOCK HS MODAL HANDLERS ────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  const unlockModal       = document.getElementById('unlock-modal');
-  const unlockConfirmBtn  = document.getElementById('unlockConfirmBtn');
-  const unlockCancelBtn   = document.getElementById('unlockCancelBtn');
+// ─── UNLOCK HS MODAL HANDLERS (simple bind) ───────────────────────
+const unlockModal      = document.getElementById('unlock-modal');
+const unlockConfirmBtn = document.getElementById('unlockConfirmBtn');
+const unlockCancelBtn  = document.getElementById('unlockCancelBtn');
 
-  unlockConfirmBtn.addEventListener('click', async () => {
-    console.log('Unlock button clicked');
-    if (!connectedWallet) {
-      alert('Please connect your wallet first.');
+unlockConfirmBtn.addEventListener('click', async () => {
+  console.log('Unlock button clicked');   // make sure this appears in console
+  if (!connectedWallet) {
+    alert('Please connect your wallet first.');
+    return;
+  }
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer   = provider.getSigner();
+  const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
+  const price    = ethers.utils.parseUnits('5', 6);
+
+  try {
+    const rawBal = await token.balanceOf(connectedWallet);
+    if (rawBal.lt(price)) {
+      alert('Insufficient PLAI. You need at least 5 PLAI to unlock.');
       return;
     }
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer   = provider.getSigner();
-    const token    = new ethers.Contract(PLAI_ADDRESS, PLAI_ABI, signer);
-    const price    = ethers.utils.parseUnits('5', 6);
-
-    try {
-      const rawBal = await token.balanceOf(connectedWallet);
-      if (rawBal.lt(price)) {
-        alert('Insufficient PLAI. You need at least 5 PLAI to unlock.');
-        return;
-      }
-      const tx = await token.transfer(TREASURY_ADDRESS, price);
-      await tx.wait();
-      document.getElementById('hs-value-2').textContent = '1';
-      unlockModal.style.display = 'none';
-    } catch (err) {
-      console.error(err);
-      alert('Purchase failed or was rejected. Please try again.');
-    }
-  });
-
-  unlockCancelBtn.addEventListener('click', () => {
+    const tx = await token.transfer(TREASURY_ADDRESS, price);
+    await tx.wait();
+    document.getElementById('hs-value-2').textContent = '1';
     unlockModal.style.display = 'none';
-  });
+  } catch (err) {
+    console.error(err);
+    alert('Purchase failed or was rejected. Please try again.');
+  }
 });
+
+unlockCancelBtn.addEventListener('click', () => {
+  unlockModal.style.display = 'none';
+});
+
 
